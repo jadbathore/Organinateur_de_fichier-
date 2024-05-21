@@ -28,18 +28,16 @@ define('SUB_FILE_PYTHON','coding_python');
 define('SUB_PATH_TO_PYTHON',PATH_TO_CODING.'/'.SUB_FILE_PYTHON);
 define('SUB_FILE_JAVASCRIPT','coding_javascript');
 define('SUB_PATH_TO_JAVASCRIPT',PATH_TO_CODING.'/'.SUB_FILE_JAVASCRIPT);
-define('SUB_FILE_HTML','coding_html');
-define('SUB_PATH_TO_HTML',PATH_TO_CODING.'/'.SUB_FILE_HTML);
-define('SUB_FILE_CSS','coding_css');
-define('SUB_PATH_TO_CSS',PATH_TO_CODING.'/'.SUB_FILE_CSS);
+define('SUB_FILE_HTML_CSS','coding_html_css');
+define('SUB_PATH_TO_HTML_CSS',PATH_TO_CODING.'/'.SUB_FILE_HTML_CSS);
 define('SUB_FILE_CPP','coding_cpp');
 define('SUB_PATH_TO_CPP',PATH_TO_CODING.'/'.SUB_FILE_CPP);
 define('SUB_FILE_C','coding_c');
 define('SUB_PATH_TO_C',PATH_TO_CODING.'/'.SUB_FILE_C);
+define('SUB_FILE_SWIFT','coding_swift');
+define('SUB_PATH_TO_SWIFT',PATH_TO_CODING.'/'.SUB_FILE_SWIFT);
 define('SUB_FILE_ANGULAR','coding_angular');
 define('SUB_PATH_TO_ANGULAR',PATH_TO_CODING.'/'.SUB_FILE_ANGULAR);
-define('SUB_FILE_SYMFONY','coding_symfony');
-define('SUB_PATH_TO_SYMFONY',PATH_TO_CODING.'/'.SUB_FILE_SYMFONY);
 
 class AllFilesStatic 
 {

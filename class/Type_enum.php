@@ -23,7 +23,6 @@ enum Type: int
             'audio_video' => ['mp3', 'wav', 'ram', 'mpg', 'mp4'],
             'image' => ['gif', 'jpg', 'jpeg', 'png', 'svg'],
             'code' => ['php', 'cpp', 'js', 'py', 'html', 'css'],
-            
         ];
 
         if ($file != '.localized') {
@@ -59,7 +58,7 @@ enum Type: int
         {
         self::Error => ['error'],
         self::Use_Docs => [AllFilesStatic::definer()['files']],
-        self::Coding => 
+        self::Files => 
         [
             'file' => AllFilesStatic::definer()['files'][$case->value],
             'path' => AllFilesStatic::definer()['paths'][$case->value],
@@ -71,7 +70,6 @@ enum Type: int
                 'file' => AllFilesStatic::definer()['files'][$case->value],
                 'path' => AllFilesStatic::definer()['paths'][$case->value]
             ],
-        
         };
         
     }

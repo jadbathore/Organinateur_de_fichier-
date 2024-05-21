@@ -5,34 +5,30 @@ public function getFiles($directory)
 {
     $i = 0;
     if ($handle = opendir($directory)) {
-        $images = [];
+        $docs = [];
         while (false !== ($entry = readdir($handle))) {
             if ($entry != '.' and $entry != '..')
-                $images[$i] = $entry;
+                $docs[$i] = $entry;
             $i++;
         }
         closedir($handle);
-        return $images;
+        return $docs;
     }
 }
 public function slicesFiles(Type $typeFiles,$filesname)
 {
+    if($typeFiles != Type::Files)
+    {
+        $path_of_case = Type::forSelect($typeFiles)['path'];
+        return rename(PATH_TO_DOWNLOAD.$filesname,$path_of_case.'/'.$filesname);
+    } else {
+        $content_of_random_files = $this->getFiles(PATH_TO_DOWNLOAD.$filesname);
+        foreach($content_of_random_files as $sub_files)
+        {
+            ;
+        }
+    }
     
-    $path_of_case = Type::forSelect($typeFiles)['path'];
-    return rename(PATH_TO_DOWNLOAD.$filesname,$path_of_case.'/'.$filesname);
-    // return match($typeFiles)
-    // {
-    // ($typeFiles == Type::Docs)      => rename(PATH_TO_DOWNLOAD.$filesname,PATH_TO_DOCS.'/'.$filesname),
-    // ($typeFiles == Type::Coding)    => rename(PATH_TO_DOWNLOAD.$filesname,PATH_TO_CODING.'/'.$filesname),
-    // ($typeFiles == Type::Calc)      => rename(PATH_TO_DOWNLOAD.$filesname,PATH_TO_CALC_FILES.'/'.$filesname),
-    // ($typeFiles == Type::Image)     => rename(PATH_TO_DOWNLOAD.$filesname,PATH_TO_IMAGE.'/'.$filesname),
-    // ($typeFiles == Type::Audio_Video)=> rename(PATH_TO_DOWNLOAD.$filesname,PATH_TO_AUDIO_VIDEO.'/'.$filesname),
-    // ($typeFiles == Type::Files)     => rename(PATH_TO_DOWNLOAD.$filesname,PATH_TO_FILES.'/'.$filesname),
-    // ($typeFiles == Type::Unidentified)=> rename(PATH_TO_DOWNLOAD.$filesname,PATH_TO_FILES.'/'.$filesname),
-    // ($typeFiles == Type::Error)     =>  'erreur',
-    // default => 'default',
-    // };
-
 }
 
 public function createFile()
@@ -45,7 +41,5 @@ public function createFile()
         } 
     }
 }
-
-
 }
 
