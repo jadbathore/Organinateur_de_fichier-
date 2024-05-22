@@ -22,18 +22,23 @@ public function slicesFiles(Type $typeFiles,$filesname)
         $path_of_case = Type::forSelect($typeFiles)['path'];
         return rename(PATH_TO_DOWNLOAD.$filesname,$path_of_case.'/'.$filesname);
     } else {
-        $content_of_random_files = $this->getFiles(PATH_TO_DOWNLOAD.$filesname);
-        foreach($content_of_random_files as $sub_files)
+        $sub_case = SubType::typesubfile($filesname,$typeFiles);
+        if($sub_case != SubType::Unidentified)
         {
-            ;
+            $path_of_sub_case = SubType::ForSelect_sub($sub_case,$typeFiles)['path'];
+            return rename(PATH_TO_DOWNLOAD.$filesname,$path_of_sub_case.'/'.$filesname);
         }
     }
-    
 }
 
 public function createFile()
 {
-    foreach(AllFilesStatic::definer()['paths'] as $path)
+    $allfiles_to_create = array_merge(
+    AllFilesStatic::definer()['paths'],
+    AllFilesStatic::definer()['sub_paths']
+    );
+
+    foreach($allfiles_to_create as $path)
     {
         if(!is_dir($path))
         {

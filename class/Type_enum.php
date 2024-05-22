@@ -71,7 +71,6 @@ enum Type: int
                 'path' => AllFilesStatic::definer()['paths'][$case->value]
             ],
         };
-        
     }
 }
 

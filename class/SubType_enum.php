@@ -1,6 +1,6 @@
 <?php
 
-use function PHPSTORM_META\type;
+
 
 enum SubType:int 
 {
@@ -29,19 +29,18 @@ enum SubType:int
         ];
         if ($fileTypes == Type::Files)
         {
-            if(in_array($file,$keys_word))
+            if(($test = self::test_string($file,$keys_word)) != false)
             {
                 return match(true)
                 {
-                    stristr($file,'php') => static::php,
-                    str_contains($file,key($keys_word['python'])) => static::python,
-                    str_contains($file,key($keys_word['javascript'])) => static::javascript,
-                    str_contains($file,key($keys_word['html'])) => static::html_css,
-                    str_contains($file,key($keys_word['cpp'])) => static::cpp,
-                    str_contains($file,key($keys_word['_c'])) => static::c,
-                    str_contains($file,key($keys_word['swift'])) => static::swift,
-                    str_contains($file,key($keys_word['angular'])) => static::angular,
-                    
+                    ($test == 'php') => static::php,
+                    ($test == 'python') => static::python,
+                    ($test == 'javascript') => static::javascript,
+                    ($test == 'html') => static::html_css,
+                    ($test == 'cpp') => static::cpp,
+                    ($test == '_c') => static::cpp,
+                    ($test == 'swift') => static::swift,
+                    ($test == 'angular') => static::angular,
                 };
             } else {
                 $binder = new Binder;
@@ -59,8 +58,32 @@ enum SubType:int
                     default => static::Unidentified
                 };
             }
+        } else {
+            return static::Error;
         }
-        
-        
+    }
+
+    private static function test_string($file,$array)
+    {
+        foreach($array as $term => $value)
+        {
+            if(stristr($file,$term)){
+                return $term;
+            }
+        }
+        return false;
+    }
+
+    public static function ForSelect_sub(self $case)
+    {
+        return match($case)
+        {
+            self::Error => ['error'],
+            self::Unidentified => [],
+            $case => [
+                'file' => AllFilesStatic::definer()['sub_files'][$case->value],
+                'path' => AllFilesStatic::definer()['sub_paths'][$case->value],
+                ]
+        };
     }
 }
