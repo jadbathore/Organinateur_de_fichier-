@@ -1,7 +1,5 @@
 <?php
 
-
-
 enum SubType:int 
 {
     case php = 0;
@@ -12,8 +10,8 @@ enum SubType:int
     case c = 5;
     case swift = 6;
     case angular = 7;
-    case Error = 8;
-    case Unidentified = 9;
+    case Unidentified = 8;
+    case Error = 9;
 
     public static function typesubfile(string $file,Type $fileTypes): static
     {
@@ -45,18 +43,22 @@ enum SubType:int
             } else {
                 $binder = new Binder;
                 $inspection_file = $binder->getFiles(PATH_TO_DOWNLOAD.$file);
-                return match (true)
-                {
-                    (count(array_intersect($keys_word['php'],$inspection_file)) == 1)  => static::php,
-                    (count(array_intersect($keys_word['python'],$inspection_file)) >= 1)  => static::python,
-                    (count(array_intersect($keys_word['javascript'],$inspection_file)) >= 1)  => static::javascript,
-                    (count(array_intersect($keys_word['html'],$inspection_file)) >= 2)  => static::html_css,
-                    (count(array_intersect($keys_word['cpp'],$inspection_file)) >= 1)  => static::cpp,
-                    (count(array_intersect($keys_word['_c'],$inspection_file)) == 1)  => static::c,
-                    (count(array_intersect($keys_word['swift'],$inspection_file)) >= 1)  => static::swift,
-                    (count(array_intersect($keys_word['angular'],$inspection_file)) == 1)  => static::angular,
-                    default => static::Unidentified
-                };
+                if($inspection_file != self::Unidentified){
+                    return match (true)
+                    {
+                        (count(array_intersect($keys_word['php'],$inspection_file)) == 1)  => static::php,
+                        (count(array_intersect($keys_word['python'],$inspection_file)) >= 1)  => static::python,
+                        (count(array_intersect($keys_word['javascript'],$inspection_file)) >= 1)  => static::javascript,
+                        (count(array_intersect($keys_word['html'],$inspection_file)) >= 2)  => static::html_css,
+                        (count(array_intersect($keys_word['cpp'],$inspection_file)) >= 1)  => static::cpp,
+                        (count(array_intersect($keys_word['_c'],$inspection_file)) == 1)  => static::c,
+                        (count(array_intersect($keys_word['swift'],$inspection_file)) >= 1)  => static::swift,
+                        (count(array_intersect($keys_word['angular'],$inspection_file)) == 1)  => static::angular,
+                        default => static::Unidentified
+                    };
+                } else {
+                    return static::Unidentified;
+                }
             }
         } else {
             return static::Error;
@@ -79,7 +81,11 @@ enum SubType:int
         return match($case)
         {
             self::Error => ['error'],
-            self::Unidentified => [],
+            self::Unidentified => 
+            [
+                'file' => AllFilesStatic::definer()['files'][7],
+                'path' => AllFilesStatic::definer()['paths'][7],
+            ],
             $case => [
                 'file' => AllFilesStatic::definer()['sub_files'][$case->value],
                 'path' => AllFilesStatic::definer()['sub_paths'][$case->value],

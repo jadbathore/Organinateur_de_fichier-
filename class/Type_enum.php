@@ -8,7 +8,7 @@ enum Type: int
     case Docs = 4;
     case Audio_Video = 5;
     case Unidentified = 6;
-    case Files = 7  ;
+    case Files = 7 ;
     case Use_Docs = 8;
     case Error = 9;
 
@@ -57,7 +57,7 @@ enum Type: int
     return match($case)
         {
         self::Error => ['error'],
-        self::Use_Docs => [AllFilesStatic::definer()['files']],
+        self::Use_Docs => ['file' => 'app_docs'],
         self::Files => 
         [
             'file' => AllFilesStatic::definer()['files'][$case->value],
