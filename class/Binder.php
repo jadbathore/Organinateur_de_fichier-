@@ -27,11 +27,11 @@ class Binder
     {
         if ($typeFiles != Type::Files) {
             $path_of_case = Type::forSelect($typeFiles)['path'];
-            return rename(PATH_TO_DOWNLOAD . $filesname, $path_of_case . '/' . $filesname);
+            return rename(ROOT_TO_DOWNLOAD . $filesname, $path_of_case . '/' . $filesname);
         } else {
             $sub_case = SubType::typesubfile($filesname, $typeFiles);
             $path_of_sub_case = SubType::ForSelect_sub($sub_case, $typeFiles)['path'];
-            return rename(PATH_TO_DOWNLOAD . $filesname, $path_of_sub_case . '/' . $filesname);
+            return rename(ROOT_TO_DOWNLOAD . $filesname, $path_of_sub_case . '/' . $filesname);
         }
     }
 

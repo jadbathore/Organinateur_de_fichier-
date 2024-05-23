@@ -9,15 +9,21 @@ $loader = new \Twig\Loader\FilesystemLoader('./viewer/');
 $twig = new \Twig\Environment($loader);
 
 $binder = new Binder();
-$downloads = $binder->getFiles(PATH_TO_DOWNLOAD);
-foreach ($downloads as $key => $file) {
+$downloads = $binder->getFiles(ROOT_TO_DOWNLOAD);
+$desktop = $binder->getFiles(ROOT_TO_DESKTOP);
+$documents = $binder->getFiles(ROOT_TO_DOCUMENT);
+
+function display_in_file($array,$directory):array
+{
+    foreach ($array as $file) {
     $case = Type::typefile($file);
     $types_of_files = Type::forSelect($case)['file'];
     $test['type'] = $types_of_files;
     $test['file'] = $file;
     if ($case != Type::Use_Docs) {
         if ($case == Type::Files) {
-            $sub_files = $binder->getFiles(PATH_TO_DOWNLOAD . $file);
+            $binder = new Binder;
+            $sub_files = $binder->getFiles($directory. $file);
             $test['sub_file'] = $sub_files;
         } else {
             unset($test['sub_file']);
@@ -26,7 +32,14 @@ foreach ($downloads as $key => $file) {
         unset($test['sub_file']);
     }
     $other[] = $test;
+    return $other;
+    }
 }
+
+$in_download = display_in_file($downloads,ROOT_TO_DOWNLOAD);
+$in_Desktop = display_in_file($desktop,ROOT_TO_DESKTOP);
+$in_Documents = display_in_file($documents,ROOT_TO_DOCUMENT);
+
 if(isset($_POST['sub']))
 {
 $create = $binder->createFile();
@@ -39,14 +52,12 @@ foreach ($downloads as $key => $files) {
     }
 };
 }
-echo $twig->render('test.html.twig', ['path' => PATH_TO_DOWNLOAD, 'content_downloads' => $other]);
+echo'<pre>';
+print_r(AllFilesStatic::definer());
+echo'</pre>';
+echo $twig->render('test.html.twig', [
+    'path_downloads' => ROOT_TO_DOWNLOAD,
+    'content_downloads' => $in_download,
+]);
 
 
-
-// foreach(SubType::cases() as $case)
-// {
-//     var_dump($case);
-//     echo '<pre>';
-//     print_r(SubType::forSelect_sub($case));
-//     echo '</pre>';
-// }
