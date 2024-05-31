@@ -7,22 +7,28 @@ define('ROOT_TO_DOWNLOAD',USERS.$root[4].'/'.'Downloads'.'/');
 define('ROOT_TO_DESKTOP',USERS.$root[4].'/'.'Desktop'.'/');
 define('ROOT_TO_DOCUMENT',USERS.$root[4].'/'.'Documents'.'/');
 //---------------primary-files-----------------------------------------
-define('IMAGE','image');
-define('PATH_TO_IMAGE',ROOT_TO_DOWNLOAD.IMAGE);
+
+
+class AllFilesStatic 
+{
+    public static function test($tester)
+    {
+    define('IMAGE','image');
+define('PATH_TO_IMAGE',$tester.IMAGE);
 define('CODING','coding');
-define('PATH_TO_CODING',ROOT_TO_DOWNLOAD.CODING);
+define('PATH_TO_CODING',$tester.CODING);
 define('OBJ_FILES','object');
-define('PATH_TO_OBJ_FILES',ROOT_TO_DOWNLOAD.OBJ_FILES);
+define('PATH_TO_OBJ_FILES',$tester.OBJ_FILES);
 define('CALC_FILES','calcul');
-define('PATH_TO_CALC_FILES',ROOT_TO_DOWNLOAD.CALC_FILES);
+define('PATH_TO_CALC_FILES',$tester.CALC_FILES);
 define('DOCS','docs');
-define('PATH_TO_DOCS',ROOT_TO_DOWNLOAD.DOCS);
+define('PATH_TO_DOCS',$tester.DOCS);
 define('FILES_AUDIO_VIDEO','audio_video');
-define('PATH_TO_AUDIO_VIDEO',ROOT_TO_DOWNLOAD.FILES_AUDIO_VIDEO);
+define('PATH_TO_AUDIO_VIDEO',$tester.FILES_AUDIO_VIDEO);
 define('FILES_UNIDENTIFIED','non_idetentifier');
-define('PATH_TO_UNIDENTIFIED',ROOT_TO_DOWNLOAD.FILES_UNIDENTIFIED);
+define('PATH_TO_UNIDENTIFIED',$tester.FILES_UNIDENTIFIED);
 define('FILES_RAND','files');
-define('PATH_TO_FILES',ROOT_TO_DOWNLOAD.FILES_RAND);
+define('PATH_TO_FILES',$tester.FILES_RAND);
 // ----------------------sub-files----------------------------------------
 define('SUB_FILE_PHP','coding_php');
 define('SUB_PATH_TO_PHP',PATH_TO_CODING.'/'.SUB_FILE_PHP);
@@ -40,11 +46,7 @@ define('SUB_FILE_SWIFT','coding_swift');
 define('SUB_PATH_TO_SWIFT',PATH_TO_CODING.'/'.SUB_FILE_SWIFT);
 define('SUB_FILE_ANGULAR','coding_angular');
 define('SUB_PATH_TO_ANGULAR',PATH_TO_CODING.'/'.SUB_FILE_ANGULAR);
-
-class AllFilesStatic 
-{
-    public function __construct() {
-        $this->definer();
+define('THE_PRIMARY_FILE',$tester);
     }
 
     public static function definer()
@@ -55,12 +57,12 @@ class AllFilesStatic
             
             switch($key)
             {
-                case str_contains($key,'USERS'): break; 
+                case str_contains($key,'USERS') OR str_contains($key,'THE_PRIMARY_FILE'): break; 
                 case str_contains($key,'ROOT'):$allconst['roots'][] = $const;break;
                 case str_contains($key,'SUB_PATH') :$allconst['sub_paths'][] =  $const; break;
                 case str_contains($key,'PATH') :$allconst['paths'][] =  $const; break;
                 case str_contains($key,'SUB_FILE') :$allconst['sub_files'][] =  $const; break;
-                default :$allconst['files'][] =  $const; break;
+                default : $allconst['files'][] =  $const; break;
             } 
         }
         return $consts = $allconst;

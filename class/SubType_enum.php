@@ -42,7 +42,7 @@ enum SubType:int
                 };
             } else {
                 $binder = new Binder;
-                $inspection_file = $binder->getFiles(PATH_TO_DOWNLOAD.$file);
+                $inspection_file = $binder->getFiles(ROOT_TO_DOWNLOAD.$file);
                 if($inspection_file != self::Unidentified){
                     return match (true)
                     {
