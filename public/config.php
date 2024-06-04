@@ -1,4 +1,9 @@
 <?php
+
+namespace main;
+
+use model\Binder;
+
 //---------------"root-files"------------------------------------------
 define('USERS','/Users/');
 $imageBinder = new Binder();

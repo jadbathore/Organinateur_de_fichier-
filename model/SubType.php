@@ -1,4 +1,7 @@
 <?php
+namespace model;
+
+use main\AllFilesStatic;
 
 enum SubType:int 
 {

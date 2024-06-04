@@ -1,4 +1,8 @@
 <?php
+namespace model;
+
+use main\AllFilesStatic;
+
 enum Type: int
 {
     case Image = 0;

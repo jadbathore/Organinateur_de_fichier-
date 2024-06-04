@@ -1,4 +1,10 @@
 <?php
+namespace model;
+
+use Exception;
+use main\AllFilesStatic;
+
+
 class Binder
 {
     public function getFiles($directory)
