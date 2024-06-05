@@ -2,6 +2,7 @@
 namespace model;
 
 use Attribute;
+use model\Twig\TwigImplementor;
 use Stringable;
 
 #[Attribute]
@@ -28,11 +29,9 @@ public function __toString(): string
 }
 }
 
-class router 
+class Router extends TwigImplementor
 {
-
 private $array;
-
 
 public function __construct(
     private string $actualroute,
@@ -40,6 +39,7 @@ public function __construct(
 ) {
     $this->actualroute = $actualroute;
     $this->set_attribut($controllers);
+    parent::__construct();
 }
 
 private function set_attribut(array $controllers)
@@ -95,7 +95,9 @@ private function set_attribut(array $controllers)
         }
     }
     if(!isset($invokable)){
-        throw new \Exception('aucune route pour l\'url : '.$this->actualroute);
+        echo $this->twigObject->render('error.html.twig',[
+            'route' => $this->actualroute,
+        ]);
     }
 }
 

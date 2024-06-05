@@ -30,6 +30,7 @@ class ModelAutoloading
                 require_once $require_dir.'.php';
             }
         }
+        
         } elseif(stristr($class,'controller')){
             if($explode_class = explode("\\",$class)){
                 $last_array_value = end($explode_class);

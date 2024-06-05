@@ -3,19 +3,15 @@ namespace Controller;
 
 use model\Binder;
 use main\AllFilesStatic;
+use model\Route;
 use model\Type;
+use model\Twig\twigImplementor;
 
-abstract class twigImplementor
-{
-    public function __construct(
-        public ?object $twigObject = null) {
-        $loader = new \Twig\Loader\FilesystemLoader('../viewer/');
-        $this->twigObject = new \Twig\Environment($loader);
-    }
-}
-class HomeController extends twigImplementor
-{
 
+#[Route('/')]
+class HomeController extends TwigImplementor
+{
+    #[Route('')]
     function index()
     {
         $binder = new Binder();
@@ -47,6 +43,10 @@ class HomeController extends twigImplementor
         ]);
     }
 
+    #[Route('hello')]
+    public function hello() {
+        return $this->twigObject->render('error.html.twig');
+    }
 
 
     public function display_in_file($array, $directory): array
