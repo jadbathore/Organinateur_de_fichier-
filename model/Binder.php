@@ -3,7 +3,8 @@ namespace model;
 
 use Exception;
 use main\AllFilesStatic;
-
+use model\enum\Type;
+use model\enum\SubType;
 
 class Binder
 {

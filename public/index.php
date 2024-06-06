@@ -14,6 +14,7 @@ use model\Binder;
 use model\Type;
 use main\AllFilesStatic;
 use Controller\HomeController;
+use Controller\ImageController;
 use Exception;
 use model\Router;
 
@@ -28,6 +29,7 @@ $implode = implode('/',$explode);
 $binder = new Binder($uri);
 $router = new Router($implode,[
     HomeController::class,
+    ImageController::class,
 ]);
 
 $router->start();

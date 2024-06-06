@@ -1,7 +1,8 @@
 <?php
-namespace model;
+namespace model\enum;
 
 use main\AllFilesStatic;
+use model\Binder;
 
 enum SubType:int 
 {

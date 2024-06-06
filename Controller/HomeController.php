@@ -4,7 +4,7 @@ namespace Controller;
 use model\Binder;
 use main\AllFilesStatic;
 use model\Route;
-use model\Type;
+use model\enum\Type;
 use model\Twig\twigImplementor;
 
 
@@ -38,16 +38,10 @@ class HomeController extends TwigImplementor
             };
             
         }
-        return $this->twigObject->render('test.html.twig', [
+        return $this->twigObject->render('home/index.html.twig', [
             'content_downloads' => $allfiles,
         ]);
     }
-
-    #[Route('hello')]
-    public function hello() {
-        return $this->twigObject->render('error.html.twig');
-    }
-
 
     public function display_in_file($array, $directory): array
     {

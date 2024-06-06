@@ -73,3 +73,10 @@ define('THE_PRIMARY_FILE',$tester);
         return $consts = $allconst;
     }
 }
+
+function display($mixed)
+    {
+        echo '<pre>';
+        var_dump($mixed);
+        echo '<pre>';
+    }

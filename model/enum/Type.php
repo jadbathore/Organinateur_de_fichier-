@@ -1,5 +1,5 @@
 <?php
-namespace model;
+namespace model\enum;
 
 use main\AllFilesStatic;
 
