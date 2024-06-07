@@ -89,15 +89,12 @@ private function set_attribut(array $controllers)
                             echo $reflection_method->invoke($invokable);
                             break;
                         }
-                    }
-                    
+                    }   
             }
         }
     }
     if(!isset($invokable)){
-        echo $this->twigObject->render('error.html.twig',[
-            'route' => $this->actualroute,
-        ]);
+        return false ;
     }
 }
 

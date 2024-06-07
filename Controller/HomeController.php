@@ -38,6 +38,7 @@ class HomeController extends TwigImplementor
             };
             
         }
+    
         return $this->twigObject->render('home/index.html.twig', [
             'content_downloads' => $allfiles,
         ]);

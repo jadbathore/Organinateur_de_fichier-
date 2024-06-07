@@ -63,7 +63,7 @@ enum Image {
             self::Jpg => 'jpg',
             self::Png => 'png',
             self::Svg => 'svg',
-            self::Error => Type::forSelect($type)['file'],
+            self::Error => 'error',
         };
     }
 

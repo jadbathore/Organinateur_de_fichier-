@@ -3,10 +3,49 @@
 {% block title %} image {% endblock %}
 
 {% block body %}
+<table class="table table-dark mt-5">
+ <thead>
+    <tr>
+        <th class="col fs-4 p-3">nom de l'image</th>
+        <th class="col fs-4 p-3">Type de contenu</th>
+        <th class="col fs-4 p-3">Type d'image</th>
+        <th class="col fs-4 p-3">Taille du fichier</th>
+    </tr>
+</thead>
+{% for contents in dirInfo %}
+ <tbody >
+<tr>
+    <th class="text-break">{{ contents.name}}</th> 
+    <td>{{ contents.type}}</td>
+    <td>{{ contents.image_type}}</td>
 
+    {% if contents.size|length <= 3 %}
+    <td>{{ contents.size }} octet </td>
+    {% elseif contents.size|length > 3 and  contents.size|length <= 6  %}
+    <td>{{ contents.size[:-3]}}.{{ contents.size[length-3:-1]}} ko </td>
+    {% elseif contents.size|length > 5 and  contents.size|length <= 9   %}
+    <td>{{ contents.size[:-6]}}.{{ contents.size[length-6:-3]}} mo </td>
+    {% else %}
+    <td>{{ contents.size[:-9]}} go </td>
+    {% endif %}
+</tr>
+{% endfor %}
+
+</tbody>
+</table> 
+<div class="badge bg-danger fs-5 text-align-center p-2 m-5">    
+{% if totalSize|length <= 3 %}
+    <p>{{ totalSize }} octet </p>
+    {% elseif totalSize|length > 3 and  totalSize|length <= 6  %}
+    <p>total size file : {{ totalSize[:-3]}}.{{ totalSize[length-3:-1]}} ko </p>
+    {% elseif totalSize|length > 5 and  totalSize|length <= 9   %}
+    <p>total size file : {{ totalSize[:-6]}}.{{ totalSize[length-6:-3]}} mo </p>
+    {% else %}
+    <p>total size file : {{ totalSize[:-9]}} go </p>
+    {% endif %}
+</div>
     <form class="d-flex flex-row-reverse bd-highlight m-5 " action="index.php" method="post">
         <input class="btn btn-primary fs-5" type="submit" name="sub" value="-> Ranger les fichiers">
     </form>
 </div>
-
 {% endblock %}
