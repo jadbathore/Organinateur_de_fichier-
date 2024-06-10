@@ -1,11 +1,11 @@
 <?php
 
-namespace model;
+namespace model\Attributes;
 
 use Attribute;
 
 #[Attribute]
-class method {
+class RequestMethod {
     public function __construct(
         private string|array $method = null,
     )

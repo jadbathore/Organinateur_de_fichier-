@@ -3,12 +3,12 @@
 namespace Controller;
 
 
-use model\Route;
 use model\Twig\TwigImplementor;
 use model\enum\Image;
 use model\enum\Type;
 use model\Binder;
 use main\AllFilesStatic;
+use model\Attributes\Route;
 use function main\display;
 
 #[Route('/imagecompressor')]

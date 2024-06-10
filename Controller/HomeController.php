@@ -3,7 +3,7 @@ namespace Controller;
 
 use model\Binder;
 use main\AllFilesStatic;
-use model\Route;
+use model\Attributes\Route;
 use model\enum\Type;
 use model\Twig\twigImplementor;
 

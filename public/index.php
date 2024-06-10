@@ -1,10 +1,6 @@
 <?php
 namespace main;
 
-// require('../model/Type_enum.php');
-// require('../model/SubType_enum.php');
-// require('../model/Binder.php');
-// require('../model/config.php');
 require_once '../vendor/autoload.php';
 require_once 'ModelAutoloader.php';
 require('config.php');

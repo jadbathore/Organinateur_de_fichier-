@@ -33,15 +33,15 @@
 
 </tbody>
 </table> 
-<div class="badge bg-danger fs-5 text-align-center p-2 m-5">    
+<div class="badge bg-danger fs-5 text-align-center p-2 m-5" >    
 {% if totalSize|length <= 3 %}
-    <p>{{ totalSize }} octet </p>
+    <p class="align-middle">{{ totalSize }} octet </p>
     {% elseif totalSize|length > 3 and  totalSize|length <= 6  %}
-    <p>total size file : {{ totalSize[:-3]}}.{{ totalSize[length-3:-1]}} ko </p>
+    <p class="align-middle">total size file : {{ totalSize[:-3]}}.{{ totalSize[length-3:-1]}} ko </p>
     {% elseif totalSize|length > 5 and  totalSize|length <= 9   %}
-    <p>total size file : {{ totalSize[:-6]}}.{{ totalSize[length-6:-3]}} mo </p>
+    <p class="align-middle">total size file : {{ totalSize[:-6]}}.{{ totalSize[length-6:-3]}} mo </p>
     {% else %}
-    <p>total size file : {{ totalSize[:-9]}} go </p>
+    <p class="align-middle">total size file : {{ totalSize[:-9]}} go </p>
     {% endif %}
 </div>
     <form class="d-flex flex-row-reverse bd-highlight m-5 " action="index.php" method="post">
