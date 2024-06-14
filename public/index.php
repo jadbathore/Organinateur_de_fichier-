@@ -7,16 +7,9 @@ require('config.php');
 
 
 use model\Binder;
-use model\Type;
-use main\AllFilesStatic;
 use Controller\HomeController;
 use Controller\ImageController;
-use Exception;
 use model\Router;
-
-$loader = new \Twig\Loader\FilesystemLoader('../viewer/');
-$twig = new \Twig\Environment($loader);
-
 
 $uri = $_SERVER['REQUEST_URI'];
 $explode = explode('/',$uri);

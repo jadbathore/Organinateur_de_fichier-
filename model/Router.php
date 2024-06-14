@@ -3,28 +3,11 @@
 namespace model;
 
 
+use model\Attributes\CommunFunction;
 use model\Twig\TwigImplementor;
 use ReflectionClass;
-use Stringable;
 use model\Attributes\Route;
 use model\Attributes\RequestMethod;
-
-use function main\display;
-
-class Stringify implements Stringable
-{
-
-    public function __construct(
-        public $object,
-    ) {
-        $this->object = $object;
-    }
-
-    public function __toString(): string
-    {
-        return $this->object;
-    }
-}
 
 class Router extends TwigImplementor
 {
@@ -32,18 +15,20 @@ class Router extends TwigImplementor
 
     public function __construct(
         private string $actualroute,
-        private array $controllers
+        public array $controllers,
+        
     ) {
         $this->actualroute = $actualroute;
         $this->set_attribut($controllers);
         parent::__construct();
+        new Commun($controllers);
     }
 
     private function set_attribut(array $controllers)
     {
         $i = 0;
         foreach ($controllers as $controller) {
-            $reflec_class = new \ReflectionClass($controller);
+            $reflec_class = new ReflectionClass($controller);
             foreach ($reflec_class->getMethods() as $method) {
                 $attributs = $method->getAttributes(Route::class);
                 $classArray[$method->class][$i]['attribut'] = $attributs;
@@ -61,56 +46,87 @@ class Router extends TwigImplementor
     public function start()
     {
         foreach ($this->controllers as $controller) {
-            $reflec_class = new \ReflectionClass($controller);
+            $reflec_class = new ReflectionClass($controller);
             foreach ($reflec_class->getMethods() as $method) {
                 $class_attributs = $reflec_class->getAttributes();
-                display($this->testrequestMethod($method));
                 $attributs = $method->getAttributes(Route::class);
                 foreach ($attributs as $attribut) {
                     $method_arg = $attribut->getArguments();
                     $stringfy_method_arg = new Stringify($method_arg[0]);
-                    $class_arg = $class_attributs[0]->getArguments();
-                    if (isset($class_arg)) {
-                        $stringfy_class_arg = new Stringify($class_arg[0]);
-                        if ($stringfy_class_arg . $stringfy_method_arg == $this->actualroute) {
-
-                            $invokable = new $method->class;
-                            $reflection_method = new \ReflectionMethod($method->class, $method->name);
-                            echo $reflection_method->invoke($invokable);
-                            break;
-                        }
-                    } else {
-                        if ($stringfy_method_arg == $this->actualroute) {
-                            $invokable = new $method->class;
-                            $reflection_method = new \ReflectionMethod($method->class, $method->name);
-                            echo $reflection_method->invoke($invokable);
-                            break;
+                    if(isset($class_attributs[0]))
+                    {
+                        $class_arg = $class_attributs[0]->getArguments();
+                    }
+                        if(($this->testrequestMethod($method) == $_SERVER['REQUEST_METHOD']) or ($this->testrequestMethod($method) == false))
+                        {
+                            if (isset($class_arg)) {
+                            $stringfy_class_arg = new Stringify($class_arg[0]);
+                            if ($stringfy_class_arg . $stringfy_method_arg == $this->actualroute) {
+                                $invokable = new $method->class;
+                                $reflection_method = new \ReflectionMethod($method->class, $method->name);
+                                if ($method->getAttributes(CommunFunction::class))
+                                {
+                                    $agr_Commun= $method->getAttributes(CommunFunction::class)[0]
+                                                        ->getArguments();
+                                    if(isset(Commun::$att_CommunFunction)){
+                                    if ($agr_Commun[0] == commun::$att_CommunFunction)
+                                    {
+                                        echo $reflection_method->invokeArgs($invokable,Commun::$array);
+                                    } }
+                                } else {
+                                    echo $reflection_method->invoke($invokable);
+                                }
+                                break;
+                            }
+                        } else {
+                            if ($stringfy_method_arg == $this->actualroute) {
+                                $invokable = new $method->class;
+                                $reflection_method = new \ReflectionMethod($method->class, $method->name);
+                                if ($method->getAttributes(CommunFunction::class))
+                                {
+                                    $agr_Commun= $method->getAttributes(CommunFunction::class)[0]
+                                                        ->getArguments();
+                                    if ($agr_Commun[0] == commun::$att_CommunFunction)
+                                    {
+                                        echo $reflection_method->invokeArgs($invokable,Commun::$array);
+                                    } 
+                                } else {
+                                    echo $reflection_method->invoke($invokable);
+                                }
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
-        // if(!isset($invokable)){
-        //     echo $this->twigObject->render('error.html.twig',[
-        //         'route' => $this->actualroute
-        //     ]) ;
-        // }
+        if(!isset($invokable)){
+            echo $this->twigObject->render('error.html.twig',[
+                'route' => $this->actualroute
+            ]) ;
+        }
     }
 
-    public function testrequestMethod($methodAttr = null)
+    public function communfunction()
+    {
+        foreach ($this->controllers as $controller) {
+            $reflec_class = new ReflectionClass($controller);
+            foreach ($reflec_class->getMethods() as $method) {
+                $attributs = $method->getAttributes(CommunFunction::class);
+            }
+        }
+    }
+
+    private function testrequestMethod($methodAttr = null)
     {
             $attributs = $methodAttr->getAttributes(RequestMethod::class);
             foreach ($attributs as $attribut) {
                 $method = $attribut->getArguments();
-                if (count($method) > 2) {
-                    return true;
+                if (count($method) >= 2) {
+                    return false;
                 } else {
                     $stringfy_req_method = new Stringify($method[0]);
-                    if ($_SERVER['REQUEST_METHOD'] == $stringfy_req_method) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return $stringfy_req_method;
                 }
             }
             if(!isset($method)){
@@ -118,10 +134,9 @@ class Router extends TwigImplementor
             }
     }
 
-
-
     public function get_attribut()
     {
         return $this->array;
     }
+    
 }

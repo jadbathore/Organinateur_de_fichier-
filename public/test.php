@@ -6,12 +6,15 @@ require_once '../vendor/autoload.php';
 require_once 'ModelAutoloader.php';
 require 'config.php';
 
-
+use main\AllFilesStatic;
+use model\Attributes\CommunFunction;
+use model\abstract_class\AbstractCommunVariable;
 use model\Attributes\RequestMethod;
 use model\Attributes\Route;
 use model\enum\Image;
 use model\enum\Type;
 use model\Router;
+use model\Stringify;
 
 use function main\display;
 
@@ -53,22 +56,47 @@ use function main\display;
 
 
 
-// var_dump($bobo);
-// var_dump($image);  
-// imagepng($image,'/Users/jadbathore/Downloads/image/1-2.png',9);
 
-#[Route('/test.php')]
-class test {
-    #[Route('/')]
+
+
+
+#[Route('/b')]
+class test 
+{
+    #[Route('/a'),CommunFunction('index')]
     public function index(){
-        return 'hello';
+        static $ete = 2;
+        static $automne = 1;
+        static $hiver = 1;
+        static $printemps = 1;
+        
     }
-}
+    #[Route('/b'),CommunFunction('index')]
+    public function test(...$test){
+        echo $test['ete'];
+    }
+    #[Route('/c'),CommunFunction('a')]
+    public function test2(...$test){
+        static $a = 'hello';
+    }
+    #[Route('/d'),CommunFunction('a')]
+    public function test3(...$test){
+        echo $test['a'];
+    }
 
-$test_Router = new Router('/',[
+
+}
+// $test = new test([test::class]);
+// $test->index();
+$test_Router = new Router('/b/d',[
     test::class
 ]);
 
-$test_Router->start();
+// abstract class testing{
+//     public 
+// }
 
+
+$test_Router->start();
+// $test_Router->communfunction();
 // display($_SERVER['REQUEST_METHOD']);

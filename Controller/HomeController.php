@@ -3,18 +3,22 @@ namespace Controller;
 
 use model\Binder;
 use main\AllFilesStatic;
+use model\Attributes\CommunFunction;
+use model\Attributes\RequestMethod;
 use model\Attributes\Route;
 use model\enum\Type;
 use model\Twig\twigImplementor;
 
+use function main\display;
 
 #[Route('/')]
 class HomeController extends TwigImplementor
 {
-    #[Route('')]
+    #[Route(''),RequestMethod('POST'),CommunFunction('index')]
     function index()
     {
-        $binder = new Binder();
+        // static $Binder = new Binder();
+        static $binder = new Binder();
         $downloads = $binder->getFiles(ROOT_TO_DOWNLOAD);
         $desktop = $binder->getFiles(ROOT_TO_DESKTOP);
         $documents = $binder->getFiles(ROOT_TO_DOCUMENT);
@@ -26,24 +30,28 @@ class HomeController extends TwigImplementor
         $allfiles['desktop'][] = AllFilesStatic::definer()['roots'][1];
         $allfiles['documents'][] = $this->display_in_file($documents, ROOT_TO_DOCUMENT);
         $allfiles['documents'][] = AllFilesStatic::definer()['roots'][2];
-
-        if (isset($_POST['sub'])) {
-            $create = $binder->createFile();
-            $i = 2;
-            foreach ($downloads as $key => $files) {
-                if (Type::typefile($files) != Type::Use_Docs) {
-                    $type_of_File = Type::typefile($files);
-                    $test = $binder->slicesFiles($type_of_File, $files);
-                }
-            };
-            
-        }
-    
         return $this->twigObject->render('home/index.html.twig', [
             'content_downloads' => $allfiles,
         ]);
     }
 
+    #[Route(''),RequestMethod('GET'),CommunFunction('index')]
+    function indexPost(...$sharedstatic)
+    {
+        display($sharedstatic);
+        // $binder = new Binder();
+        // $downloads = $binder->getFiles(ROOT_TO_DOWNLOAD);
+        // $desktop = $binder->getFiles(ROOT_TO_DESKTOP);
+        // $documents = $binder->getFiles(ROOT_TO_DOCUMENT);
+        // $create = $binder->createFile();
+            // $i = 2;
+            // foreach ($downloads as $key => $files) {
+            //     if (Type::typefile($files) != Type::Use_Docs) {
+            //         $type_of_File = Type::typefile($files);
+            //         $test = $binder->slicesFiles($type_of_File, $files);
+            //     }
+            // };
+    }
     public function display_in_file($array, $directory): array
     {
         foreach ($array as $file) {
