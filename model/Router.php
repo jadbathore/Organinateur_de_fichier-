@@ -2,7 +2,7 @@
 
 namespace model;
 
-
+use Exception;
 use model\Attributes\CommunFunction;
 use model\Twig\TwigImplementor;
 use ReflectionClass;
@@ -68,15 +68,31 @@ class Router extends TwigImplementor
                                 {
                                     $agr_Commun= $method->getAttributes(CommunFunction::class)[0]
                                                         ->getArguments();
-                                    if(isset(Commun::$att_CommunFunction)){
-                                    if ($agr_Commun[0] == commun::$att_CommunFunction)
+                                    if(isset(Commun::$method_name_commun))
                                     {
-                                        echo $reflection_method->invokeArgs($invokable,Commun::$array);
-                                    } }
+                                        if ($agr_Commun[0] == Commun::$method_name_commun)
+                                        {
+                                            if($method->name == Commun::$method_name_commun)
+                                            {
+                                                echo $reflection_method->invoke($invokable);
+                                            } else {
+                                                $invokable_commun = new Commun::$method_class_commun();
+                                                $commun_class_reflection = new \ReflectionMethod(commun::$method_class_commun,commun::$method_name_commun);
+                                                echo $commun_class_reflection->invoke($invokable_commun);
+                                                echo $reflection_method->invoke($invokable);
+                                                die();
+                                            }
+                                        }  else {
+                                            throw new Exception("aucune autre methode n'a d'attribut communFunction: $agr_Commun[0]");
+                                            die();
+                                        }
+                                    } else {
+                                        throw new Exception('Aucune methode recopiable est instacier');
+                                        die();
+                                    }
                                 } else {
                                     echo $reflection_method->invoke($invokable);
                                 }
-                                break;
                             }
                         } else {
                             if ($stringfy_method_arg == $this->actualroute) {
@@ -101,7 +117,7 @@ class Router extends TwigImplementor
             }
         }
         if(!isset($invokable)){
-            echo $this->twigObject->render('error.html.twig',[
+            echo $this->twigObject->render('error/errorRoute.html.twig',[
                 'route' => $this->actualroute
             ]) ;
         }

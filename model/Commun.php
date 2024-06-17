@@ -4,10 +4,14 @@ namespace model;
 
 use model\Attributes\CommunFunction;
 
+use function main\display;
+
 class Commun {
 
 static array $array;
 static string $att_CommunFunction;
+static string $method_name_commun;
+static string $method_class_commun;
 
 public function __construct(
     public array $controllers
@@ -26,16 +30,19 @@ public function communfunction()
             foreach($attributs as $attribut)
             {
                 $instance = $attribut->newInstance();
-                $variables = $instance->setVariable($method);
+                $variables = $instance->checkMethod($method,$attribut);
+                
                 if ($variables != false)
                 {
-                    self::$array = $variables;
-                    $communAtt = $attribut->getArguments();
-                    $strCommunAtt = new Stringify($communAtt[0]);
-                    self::$att_CommunFunction = $strCommunAtt;
-                }  
-            }
+                    self::$method_class_commun = $method->class;
+                    self::$method_name_commun = $method->name;
+                }
             }
         }
     }
+    if (!isset($variables))
+    {
+        
+    }
+}
 }

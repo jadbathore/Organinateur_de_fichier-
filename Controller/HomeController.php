@@ -14,11 +14,11 @@ use function main\display;
 #[Route('/')]
 class HomeController extends TwigImplementor
 {
-    #[Route(''),RequestMethod('POST'),CommunFunction('index')]
+    #[Route(''),RequestMethod('GET'),CommunFunction('index')]
     function index()
     {
-        // static $Binder = new Binder();
-        static $binder = new Binder();
+        static $z = 1;
+        $binder = new Binder();
         $downloads = $binder->getFiles(ROOT_TO_DOWNLOAD);
         $desktop = $binder->getFiles(ROOT_TO_DESKTOP);
         $documents = $binder->getFiles(ROOT_TO_DOCUMENT);
@@ -35,22 +35,21 @@ class HomeController extends TwigImplementor
         ]);
     }
 
-    #[Route(''),RequestMethod('GET'),CommunFunction('index')]
-    function indexPost(...$sharedstatic)
+    #[Route(''),RequestMethod('POST'),CommunFunction('index')]
+    function indexPost()
     {
-        display($sharedstatic);
         // $binder = new Binder();
         // $downloads = $binder->getFiles(ROOT_TO_DOWNLOAD);
         // $desktop = $binder->getFiles(ROOT_TO_DESKTOP);
         // $documents = $binder->getFiles(ROOT_TO_DOCUMENT);
         // $create = $binder->createFile();
-            // $i = 2;
-            // foreach ($downloads as $key => $files) {
-            //     if (Type::typefile($files) != Type::Use_Docs) {
-            //         $type_of_File = Type::typefile($files);
-            //         $test = $binder->slicesFiles($type_of_File, $files);
-            //     }
-            // };
+        // $i = 2;
+        // foreach ($downloads as $key => $files) {
+        //     if (Type::typefile($files) != Type::Use_Docs) {
+        //         $type_of_File = Type::typefile($files);
+        //         $test = $binder->slicesFiles($type_of_File, $files);
+        //     }
+        // };
     }
     public function display_in_file($array, $directory): array
     {

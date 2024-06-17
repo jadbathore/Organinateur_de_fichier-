@@ -30,32 +30,14 @@ class CommunFunction{
         $this->function = $function;
     }
 
-    public function setVariable($method)
+    public function checkMethod($method,$attribut)
     {
-        $test = new ReflectionMethod($method->class,$method->name);
-        $test->setAccessible(false);
-        $statics = $test->getStaticVariables();
-        if(empty($statics))
-        {
-            return false; 
+        $argument = $attribut->getArguments();  
+        if($argument[0] == $method->name){
+            return true;
         } else {
-            $variables = [];
-            foreach($statics as $keys => $static)
-            {
-                if(is_null($static))
-                {
-                    if(!isset($local['class']))
-                    {
-                        $arg = '\model\\'.ucfirst($keys);
-                        $class = new $arg();
-                        display($class);
-                        
-                    }
-                } else {
-                    $variables[$keys] = $static;
-                }
-            }
-            return $variables;
+            return false;
         }
+
     }
 }
