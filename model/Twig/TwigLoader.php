@@ -1,7 +1,7 @@
 <?php
 namespace model\Twig;
 
-class TwigLoader extends TwigImplementor
+class TwigLoader extends AbstractImplementor
 {
 
 }

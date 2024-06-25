@@ -4,8 +4,6 @@ namespace model;
 
 use model\Attributes\CommunFunction;
 
-use function main\display;
-
 class Commun {
 
 static array $array;

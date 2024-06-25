@@ -22,7 +22,7 @@ enum Type: int
     {
         $typeDocs = [
             'docs' => ['docx', 'doc', 'txt', 'pdf'],
-            'object' => ['blend', 'obg'],
+            'object' => ['blend', 'obg','hdr','glb'],
             'calc' => ['xml', 'csv', 'xslx'],
             'audio_video' => ['mp3', 'wav', 'ram', 'mpg', 'mp4'],
             'image' => ['gif', 'jpg', 'jpeg', 'png', 'svg'],

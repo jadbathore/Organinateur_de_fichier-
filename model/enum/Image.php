@@ -55,7 +55,7 @@ enum Image {
         };
     }
 
-    public static function nameSelected(self $typeImage,Type $type = Type::Image):string
+    public static function nameSelected(self $typeImage):string
     {
         return match ($typeImage)
         {

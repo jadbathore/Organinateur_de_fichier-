@@ -14,11 +14,8 @@ use stdClass;
 use function main\display;
 
 /*
-*  @class CommunFunction : permet de partager des données entre deux fonctions
+*  class CommunFunction : permet de partager des données entre deux fonctions
 */ 
-
-
-
 
 #[Attribute]
 class CommunFunction{

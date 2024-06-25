@@ -8,8 +8,11 @@ use model\Twig\TwigImplementor;
 use ReflectionClass;
 use model\Attributes\Route;
 use model\Attributes\RequestMethod;
+use model\Twig\AbstractImplementor;
 
-class Router extends TwigImplementor
+use function main\display;
+
+class Router extends AbstractImplementor
 {
     private $array;
 
@@ -79,12 +82,18 @@ class Router extends TwigImplementor
                                                 $invokable_commun = new Commun::$method_class_commun();
                                                 $commun_class_reflection = new \ReflectionMethod(commun::$method_class_commun,commun::$method_name_commun);
                                                 echo $commun_class_reflection->invoke($invokable_commun);
-                                                echo $reflection_method->invoke($invokable);
+                                                $statics = $commun_class_reflection->getStaticVariables();
+                                                if(!empty($statics)){
+                                                    echo $reflection_method->invokeArgs($invokable,$statics);
+                                                }else {
+                                                    echo $reflection_method->invoke($invokable);
+                                                }
                                                 die();
                                             }
                                         }  else {
                                             throw new Exception("aucune autre methode n'a d'attribut communFunction: $agr_Commun[0]");
                                             die();
+                                            
                                         }
                                     } else {
                                         throw new Exception('Aucune methode recopiable est instacier');

@@ -78,5 +78,5 @@ function display($mixed)
     {
         echo '<pre>';
         var_dump($mixed);
-        echo '<pre>';
+        echo '</pre>';
     }

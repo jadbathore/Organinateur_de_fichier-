@@ -8,24 +8,31 @@ use model\enum\Image;
 use model\enum\Type;
 use model\Binder;
 use main\AllFilesStatic;
+use model\Attributes\CommunFunction;
+use model\Attributes\RequestMethod;
 use model\Attributes\Route;
+use model\Twig\AbstractImplementor;
+
 use function main\display;
 
 #[Route('/imagecompressor')]
-class ImageController extends TwigImplementor
+class ImageController extends AbstractImplementor
 {
-
-    #[Route('')]
-    public function index(){   
-    $binder = new Binder();
+    #[Route(''),RequestMethod('GET')]
+    public function image(){   
     AllFilesStatic::test(ROOT_TO_DOWNLOAD);
-    $imagefile = $binder->getFiles(PATH_TO_IMAGE);
+    $imagefile = $this->binder->getFiles(PATH_TO_IMAGE);
     $dirImage = $this->display_in_file($imagefile);
     $totalSize = $this->total_size_dir($imagefile);
     return $this->twigObject->render('image/index.html.twig',[
         'dirInfo' => $dirImage,
         'totalSize' => $totalSize
     ]);
+    }
+    #[Route(''),RequestMethod('POST')]
+    public function imagePost()
+    {
+        echo 'test';
     }
 
     public function display_in_file($arrayDirectory):array {
