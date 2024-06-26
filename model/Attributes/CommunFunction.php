@@ -27,11 +27,11 @@ class CommunFunction{
         $this->function = $function;
     }
 
-    public function checkMethod($method,$attribut)
+    public function checkMethod($actualCommun,$attribut)
     {
         $argument = $attribut->getArguments();  
-        if($argument[0] == $method->name){
-            return true;
+        if($argument[0] == $actualCommun){
+            return $argument[0];
         } else {
             return false;
         }

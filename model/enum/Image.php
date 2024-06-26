@@ -4,15 +4,16 @@ namespace model\enum;
 
 use Exception;
 use GdImage;
-use model\Stringify;
 
-enum Image {
+enum Image:string {
 
-    case Gif;
-    case Jpg;
-    case Png;
-    case Svg;
-    case Error;
+    case Gif = 'gif';
+    case Jpg = 'jpeg';
+    case Png = 'png';
+    case Svg = 'svg';
+    case webp = 'webp';
+    case avif = 'avif';
+    case Error = 'error';
 
     public static function ImageType(string $image,Type $fileType)
     {
@@ -20,14 +21,27 @@ enum Image {
         {
             return static::Error;
         } else {
-            $silcedImage = explode('.',$image);
-            return match(true)
+            if(explode('.',$image)[1] != 'svg')
             {
-                ($silcedImage[1] == 'gif') => static::Gif,
-                (($silcedImage[1] == 'jpg') or ($silcedImage[1] == 'jpeg')) => static::Jpg,
-                ($silcedImage[1] == 'png') => static::Png,
-                ($silcedImage[1] == 'svg') => static::Svg,
-            };
+                if(($mime = getimagesize($image)['mime']))
+                {
+                    $silcedmime = explode('/',$mime);
+                    foreach(self::cases() as $case)
+                    {
+                        $stringcases[] = $case->value;
+                    };
+                    return match(true)
+                    {
+                        ($mime== false) => static::Svg,
+                        in_array($silcedmime[1],$stringcases) => static::from($silcedmime[1]),
+                        default => static::Error
+                    };
+                } else {
+                    return static::Error;
+                }
+            } else {
+                return static::Svg;
+            }
         }
     }
 
@@ -38,7 +52,9 @@ enum Image {
             self::Gif => imagecreatefromgif($image),
             self::Jpg => imagecreatefromjpeg($image),
             self::Png => imagecreatefrompng($image),
-            self::Svg => 'svg ne peux pas etre compresser',
+            self::Svg => throw new Exception('svg ne peux pas etre compresser'),
+            self::webp => imagecreatefromwebp($image),
+            self::avif => imagecreatefromavif($image),
             self::Error => throw new Exception("$image n'est pas une image")
         };
     }
@@ -50,6 +66,8 @@ enum Image {
             self::Gif => imagegif($createdImage,$image,9),
             self::Jpg => imagejpeg($createdImage,$image,9),
             self::Png => imagepng($createdImage,$image,9),
+            self::webp => imagewebp($createdImage,$image,9),
+            self::avif => imageavif($createdImage,$image,9),
             self::Svg => throw new Exception("les fichiers svg ne peux pas etre réduit"),
             self::Error => throw new Exception("$image n'est pas une image")
         };
@@ -57,14 +75,7 @@ enum Image {
 
     public static function nameSelected(self $typeImage):string
     {
-        return match ($typeImage)
-        {
-            self::Gif => 'gif',
-            self::Jpg => 'jpg',
-            self::Png => 'png',
-            self::Svg => 'svg',
-            self::Error => 'error',
-        };
+        return $typeImage->value;
     }
 
 }

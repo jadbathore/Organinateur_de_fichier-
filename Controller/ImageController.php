@@ -2,11 +2,9 @@
 
 namespace Controller;
 
-
-use model\Twig\TwigImplementor;
+use Exception;
 use model\enum\Image;
 use model\enum\Type;
-use model\Binder;
 use main\AllFilesStatic;
 use model\Attributes\CommunFunction;
 use model\Attributes\RequestMethod;
@@ -18,21 +16,40 @@ use function main\display;
 #[Route('/imagecompressor')]
 class ImageController extends AbstractImplementor
 {
-    #[Route(''),RequestMethod('GET')]
+    #[Route(''),RequestMethod('GET'),CommunFunction('image')]
     public function image(){   
     AllFilesStatic::test(ROOT_TO_DOWNLOAD);
     $imagefile = $this->binder->getFiles(PATH_TO_IMAGE);
     $dirImage = $this->display_in_file($imagefile);
     $totalSize = $this->total_size_dir($imagefile);
+    static $image = serialize($imagefile);
     return $this->twigObject->render('image/index.html.twig',[
         'dirInfo' => $dirImage,
         'totalSize' => $totalSize
     ]);
+
     }
-    #[Route(''),RequestMethod('POST')]
-    public function imagePost()
+
+
+
+    #[Route(''),RequestMethod('POST'),CommunFunction('image')]
+    public function imagePost(...$sharedstatics)
     {
-        echo 'test';
+        $to_resize = unserialize($sharedstatics['image']);
+        foreach($to_resize as $image)
+        {
+            $path = PATH_TO_IMAGE.'/'.$image;
+            $type = Type::typefile($path);
+            try {
+                $typeImage = Image::ImageType($path,$type);
+                $createdimage = Image::returncreateImage($typeImage,$path);
+                Image::UpdateImage($typeImage,$image,$createdimage);
+            } catch (Exception $execption)
+            {
+                echo $this->flashMessage($execption->getMessage(),'bg-warning m-auto p-2 text-white text-center w-50 m-auto');
+            }
+        }
+
     }
 
     public function display_in_file($arrayDirectory):array {
@@ -45,7 +62,7 @@ class ImageController extends AbstractImplementor
             $toDisplay[$i]['type'] = $type_files;
             $toDisplay[$i]['name'] = $directory;
             $toDisplay[$i]['size'] = $size;
-            $image = Image::ImageType(ROOT_TO_DOWNLOAD.$directory,$type);
+            $image = Image::ImageType(PATH_TO_IMAGE.'/'.$directory,$type);
             if($image != Image::Error)
             {
                 $nameImage = Image::nameSelected($image);

@@ -21,7 +21,7 @@ class HomeController extends AbstractImplementor
         $downloads = $this->binder->getFiles(ROOT_TO_DOWNLOAD);
         $desktop = $this->binder->getFiles(ROOT_TO_DESKTOP);
         $documents = $this->binder->getFiles(ROOT_TO_DOCUMENT);
-        AllFilesStatic::test(ROOT_TO_DOCUMENT);
+        AllFilesStatic::test(ROOT_TO_DOWNLOAD);
         $allfiles = [];
         $allfiles['downloads'][] = $this->display_in_file($downloads, ROOT_TO_DOWNLOAD);
         $allfiles['downloads'][] = AllFilesStatic::definer()['roots'][0];

@@ -24,7 +24,6 @@ class Router extends AbstractImplementor
         $this->actualroute = $actualroute;
         $this->set_attribut($controllers);
         parent::__construct();
-        new Commun($controllers);
     }
 
     private function set_attribut(array $controllers)
@@ -69,36 +68,31 @@ class Router extends AbstractImplementor
                                 $reflection_method = new \ReflectionMethod($method->class, $method->name);
                                 if ($method->getAttributes(CommunFunction::class))
                                 {
-                                    $agr_Commun= $method->getAttributes(CommunFunction::class)[0]
+                                    $agr_Commun = $method->getAttributes(CommunFunction::class)[0]
                                                         ->getArguments();
-                                    if(isset(Commun::$method_name_commun))
-                                    {
-                                        if ($agr_Commun[0] == Commun::$method_name_commun)
+                                    new Commun($this->controllers,$agr_Commun[0]);
+                                        if ($agr_Commun[0] == Commun::$argument_Attribut)
                                         {
                                             if($method->name == Commun::$method_name_commun)
                                             {
                                                 echo $reflection_method->invoke($invokable);
                                             } else {
                                                 $invokable_commun = new Commun::$method_class_commun();
-                                                $commun_class_reflection = new \ReflectionMethod(commun::$method_class_commun,commun::$method_name_commun);
+                                                $commun_class_reflection = new \ReflectionMethod(Commun::$method_class_commun,Commun::$method_name_commun);
                                                 echo $commun_class_reflection->invoke($invokable_commun);
                                                 $statics = $commun_class_reflection->getStaticVariables();
                                                 if(!empty($statics)){
                                                     echo $reflection_method->invokeArgs($invokable,$statics);
+                                                    die();
                                                 }else {
                                                     echo $reflection_method->invoke($invokable);
+                                                    die();
                                                 }
-                                                die();
                                             }
                                         }  else {
                                             throw new Exception("aucune autre methode n'a d'attribut communFunction: $agr_Commun[0]");
                                             die();
-                                            
                                         }
-                                    } else {
-                                        throw new Exception('Aucune methode recopiable est instacier');
-                                        die();
-                                    }
                                 } else {
                                     echo $reflection_method->invoke($invokable);
                                 }
