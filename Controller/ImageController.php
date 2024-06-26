@@ -35,6 +35,7 @@ class ImageController extends AbstractImplementor
     #[Route(''),RequestMethod('POST'),CommunFunction('image')]
     public function imagePost(...$sharedstatics)
     {
+        // TODO: pourquoi ça va sur git 
         $to_resize = unserialize($sharedstatics['image']);
         foreach($to_resize as $image)
         {
