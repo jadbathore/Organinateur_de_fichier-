@@ -37,6 +37,18 @@ start s'active selon des attributs tel que :
 variable statique etre du method (la syntaxe + explication dans Controller))
 - request method(simple get et post)
 -route(selon l'url donné la method est exécuter).
+
+gestion des erreurs :
+etant donné que tout le code controller est dans un bloc try catch je peux lancer des exception à
+la vollé et il seront ratrappé ici (c'est exception represent des erreur de débugage de ma par et ne devrait 
+pas etre accésible coté client sauf manipe donc j'ai redirigé cette page vers une page d'erreur qui explique a
+chaque cas le problème(viewer/error/errorCode.html.twig)
+les erreur fatal ne sont pas prise en compte par ce système mais les erreurs twig si;
+)
+la classe abstraite abstractImplementor sert à ajouter des propriètes au classe controller tel que:
+- twigObject: qui va renvoyer un object twig permettant au method (controller) de pouvoir retourné une template 
+twig
+- binder : qui permet d'avoir un object global binder(une classe utile perso)
 */
 
 try{
@@ -44,11 +56,11 @@ try{
         HomeController::class,
         ImageController::class,
     ]);
-
+    
     $router->start();
 } catch(Exception $e) {
     $twigLoader = new TwigLoader();
-     echo $twigLoader->twigObject->render('error/errorCode.html.twig',[
+    echo $twigLoader->twigObject->render('error/errorCode.html.twig',[
         'message_error' => $e->getMessage(),
         'error'=> $e,
     ]);
