@@ -1,7 +1,7 @@
 <?php
 namespace Controller;
 
-
+use Exception;
 use model\Binder;
 use main\AllFilesStatic;
 use model\Attributes\CommunFunction;
@@ -12,6 +12,32 @@ use model\Twig\AbstractImplementor;
 
 use function main\display;
 
+/*
+au niveau de Commun function: 
+les statique (cela ne peux etre que des string ou des int) sont passer de cette manière,
+je crée une static exemple : 
+#[communfunction(method1)]
+method1()
+{
+    static $a = 1
+    echo 2.'<br>'; 
+}
+puis pour la method target je passe cette static en argument 
+#[communfunction(method1)]
+method2(...$sharedA)
+{
+puis je peux réutilisé cela : 
+
+echo $sharedA['a']
+
+affiche :
+2
+1
+
+}
+
+)
+*/
 #[Route('/')]
 class HomeController extends AbstractImplementor 
 {
@@ -21,14 +47,13 @@ class HomeController extends AbstractImplementor
         $downloads = $this->binder->getFiles(ROOT_TO_DOWNLOAD);
         $desktop = $this->binder->getFiles(ROOT_TO_DESKTOP);
         $documents = $this->binder->getFiles(ROOT_TO_DOCUMENT);
-        AllFilesStatic::test(ROOT_TO_DOWNLOAD);
         $allfiles = [];
         $allfiles['downloads'][] = $this->display_in_file($downloads, ROOT_TO_DOWNLOAD);
-        $allfiles['downloads'][] = AllFilesStatic::definer()['roots'][0];
+        $allfiles['downloads'][] = ROOT_TO_DOWNLOAD;
         $allfiles['desktop'][] = $this->display_in_file($desktop, ROOT_TO_DESKTOP);
-        $allfiles['desktop'][] = AllFilesStatic::definer()['roots'][1];
+        $allfiles['desktop'][] = ROOT_TO_DESKTOP;
         $allfiles['documents'][] = $this->display_in_file($documents, ROOT_TO_DOCUMENT);
-        $allfiles['documents'][] = AllFilesStatic::definer()['roots'][2];
+        $allfiles['documents'][] = ROOT_TO_DOCUMENT;
         static $file_downloads = serialize($downloads);
         static $file_desktop = serialize($desktop);
         static $file_documents = serialize($documents);
@@ -44,8 +69,32 @@ class HomeController extends AbstractImplementor
         {
             return $this->flashMessage('veuiller choisir un fichier à organisé','error');
         } else {
-            $pass_response = $sharedstatics['file_'.$_POST['file_to_organize']];
-            $to_organize = unserialize($pass_response);
+            switch($_POST['file_to_organize'])
+            {
+                case 'downloads': AllFilesStatic::test(ROOT_TO_DOWNLOAD);
+                $pass_response = $sharedstatics['file_'.$_POST['file_to_organize']];
+                $to_organize = unserialize($pass_response);
+                
+                break;
+                case 'documents': AllFilesStatic::test(ROOT_TO_DOCUMENT);
+                $pass_response = $sharedstatics['file_'.$_POST['file_to_organize']];
+                $to_organize = unserialize($pass_response);
+
+                break;
+                case 'desktop': 
+                    AllFilesStatic::test(ROOT_TO_DOCUMENT);
+                    $pass_response = $sharedstatics['file_'.$_POST['file_to_organize']];
+                    $to_pass_document = unserialize($pass_response);
+                    foreach($to_pass_document as $file)
+                    {
+                        rename(ROOT_TO_DESKTOP.$file,ROOT_TO_DOCUMENT.$file);
+                    }
+
+                    $to_organize = $this->binder->getFiles(ROOT_TO_DOCUMENT);;
+                    break;
+                default:throw new Exception("aucun fichier ".$_POST['file_to_organize']."n'est autorisé");break;
+            }
+
             $this->binder->createFile();
             foreach ($to_organize as $files) 
             {
@@ -59,11 +108,12 @@ class HomeController extends AbstractImplementor
     }
     
 
+
     public function display_in_file($array, $directory): array
     {
         foreach ($array as $file) {
             $case = Type::typefile($file);
-            $types_of_files = Type::forSelect($case)['file'];
+            $types_of_files = Type::stringcases($case);
             $test['type'] = $types_of_files;
             $test['file'] = $file;
             if ($case != Type::Use_Docs) {

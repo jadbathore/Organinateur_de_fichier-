@@ -3,6 +3,8 @@ namespace model\enum;
 
 use main\AllFilesStatic;
 
+
+
 enum Type: int
 {
     case Image = 0;
@@ -16,30 +18,43 @@ enum Type: int
     case Use_Docs = 8;
     case Error = 9;
 
+    public const typeDocs = [
+        'docs' => ['docx', 'doc', 'txt', 'pdf'],
+        'object' => ['blend', 'obg','hdr','glb'],
+        'calc' => ['xml', 'csv', 'xslx'],
+        'audio_video' => ['mp3', 'wav', 'ram', 'mpg', 'mp4'],
+        'image' => ['gif', 'jpg', 'jpeg', 'png', 'svg'],
+        'code' => ['php', 'cpp', 'js', 'py', 'html', 'css'],
+    ];
 
+    public const stringvalue = 
+    ['image',
+    'coding',
+    'object',
+    'calc',
+    'docs',
+    'audio_video',
+    'Unidentified',
+    'file',
+    'use_docs',
+    'Error',
+];
 
     public static function typefile(string $file): static
     {
-        $typeDocs = [
-            'docs' => ['docx', 'doc', 'txt', 'pdf'],
-            'object' => ['blend', 'obg','hdr','glb'],
-            'calc' => ['xml', 'csv', 'xslx'],
-            'audio_video' => ['mp3', 'wav', 'ram', 'mpg', 'mp4'],
-            'image' => ['gif', 'jpg', 'jpeg', 'png', 'svg'],
-            'code' => ['php', 'cpp', 'js', 'py', 'html', 'css'],
-        ];
+        
 
         if ($file != '.localized') {
             if(str_contains($file,'.'))
             {
                 $silcedfile = explode('.', $file);
                 return match (true) {
-                    in_array($silcedfile[1], $typeDocs['docs']) => static::Docs,
-                    in_array($silcedfile[1], $typeDocs['object']) => static::Object,
-                    in_array($silcedfile[1], $typeDocs['calc']) => static::Calc,
-                    in_array($silcedfile[1], $typeDocs['audio_video']) => static::Audio_Video,
-                    in_array($silcedfile[1], $typeDocs['code']) => static::Coding,
-                    in_array($silcedfile[1], $typeDocs['image']) => static::Image,
+                    in_array($silcedfile[1], self::typeDocs['docs']) => static::Docs,
+                    in_array($silcedfile[1], self::typeDocs['object']) => static::Object,
+                    in_array($silcedfile[1], self::typeDocs['calc']) => static::Calc,
+                    in_array($silcedfile[1], self::typeDocs['audio_video']) => static::Audio_Video,
+                    in_array($silcedfile[1], self::typeDocs['code']) => static::Coding,
+                    in_array($silcedfile[1], self::typeDocs['image']) => static::Image,
                     default => static::Unidentified
                 };
             }else{
@@ -75,6 +90,12 @@ enum Type: int
                 'path' => AllFilesStatic::definer()['paths'][$case->value]
             ],
         };
+    }
+
+    public static function stringcases(self $cases)
+    {
+        
+        return self::stringvalue[$cases->value];
     }
 }
 

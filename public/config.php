@@ -13,26 +13,26 @@ define('ROOT_TO_DESKTOP',USERS.$root[4].'/'.'Desktop'.'/');
 define('ROOT_TO_DOCUMENT',USERS.$root[4].'/'.'Documents'.'/');
 //---------------primary-files-----------------------------------------
 
+define('IMAGE','image');
+define('CODING','coding');
+define('OBJ_FILES','object');
+define('CALC_FILES','calcul');
+define('DOCS','docs');
+define('FILES_AUDIO_VIDEO','audio_video');
+define('FILES_UNIDENTIFIED','non_idetentifier');
+define('FILES_RAND','files');
 
 class AllFilesStatic 
 {
     public static function test($tester)
     {
-    define('IMAGE','image');
 define('PATH_TO_IMAGE',$tester.IMAGE);
-define('CODING','coding');
 define('PATH_TO_CODING',$tester.CODING);
-define('OBJ_FILES','object');
 define('PATH_TO_OBJ_FILES',$tester.OBJ_FILES);
-define('CALC_FILES','calcul');
 define('PATH_TO_CALC_FILES',$tester.CALC_FILES);
-define('DOCS','docs');
 define('PATH_TO_DOCS',$tester.DOCS);
-define('FILES_AUDIO_VIDEO','audio_video');
 define('PATH_TO_AUDIO_VIDEO',$tester.FILES_AUDIO_VIDEO);
-define('FILES_UNIDENTIFIED','non_idetentifier');
 define('PATH_TO_UNIDENTIFIED',$tester.FILES_UNIDENTIFIED);
-define('FILES_RAND','files');
 define('PATH_TO_FILES',$tester.FILES_RAND);
 // ----------------------sub-files----------------------------------------
 define('SUB_FILE_PHP','coding_php');

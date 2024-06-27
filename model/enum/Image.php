@@ -13,7 +13,7 @@ enum Image:string {
     case Svg = 'svg';
     case webp = 'webp';
     case avif = 'avif';
-    case Error = 'error';
+    case Error = '';
 
     public static function ImageType(string $image,Type $fileType)
     {
@@ -63,12 +63,12 @@ enum Image:string {
     {
         return match ($typeImage)
         {
-            self::Gif => imagegif($createdImage,$image,9),
-            self::Jpg => imagejpeg($createdImage,$image,9),
-            self::Png => imagepng($createdImage,$image,9),
-            self::webp => imagewebp($createdImage,$image,9),
-            self::avif => imageavif($createdImage,$image,9),
-            self::Svg => throw new Exception("les fichiers svg ne peux pas etre réduit"),
+            self::Gif => throw new Exception("les fichiers gif ne peux pas etre réduit : $image"),
+            self::Jpg => imagejpeg($createdImage,$image,60),
+            self::Png => imagepng($createdImage,$image,8),
+            self::webp => imagewebp($createdImage,$image,60),
+            self::avif => imageavif($createdImage,$image,30),
+            self::Svg => throw new Exception("les fichiers svg ne peux pas etre réduit : $image"),
             self::Error => throw new Exception("$image n'est pas une image")
         };
     }

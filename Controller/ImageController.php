@@ -13,6 +13,10 @@ use model\Twig\AbstractImplementor;
 
 use function main\display;
 
+/* image controller d'afficher puis compresser la taille des images. 
+exemple : pour le dossier que download/image la taille total des fichiers était de 79.85mo puis elle 
+est passer à 29.48mo en fait la résolution des images ont étés baisser.
+*/
 #[Route('/imagecompressor')]
 class ImageController extends AbstractImplementor
 {
@@ -35,7 +39,6 @@ class ImageController extends AbstractImplementor
     #[Route(''),RequestMethod('POST'),CommunFunction('image')]
     public function imagePost(...$sharedstatics)
     {
-        // TODO: pourquoi ça va sur git 
         $to_resize = unserialize($sharedstatics['image']);
         foreach($to_resize as $image)
         {
@@ -44,7 +47,7 @@ class ImageController extends AbstractImplementor
             try {
                 $typeImage = Image::ImageType($path,$type);
                 $createdimage = Image::returncreateImage($typeImage,$path);
-                Image::UpdateImage($typeImage,$image,$createdimage);
+                Image::UpdateImage($typeImage,$path,$createdimage);
             } catch (Exception $execption)
             {
                 echo $this->flashMessage($execption->getMessage(),'bg-warning m-auto p-2 text-white text-center w-50 m-auto');
