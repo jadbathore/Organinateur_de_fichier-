@@ -13,6 +13,7 @@ use model\Twig\AbstractImplementor;
 use function main\display;
 
 /*
+home controller permet d'afficher pour de ranger les fichiers,
 au niveau de Commun function: 
 les statique (cela ne peux etre que des string ou des int) sont passer de cette manière,
 je crée une static exemple : 
@@ -38,6 +39,8 @@ affiche :
 
 )
 */
+
+
 #[Route('/')]
 class HomeController extends AbstractImplementor 
 {
