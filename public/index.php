@@ -16,6 +16,7 @@ require('config.php');
 use model\Binder;
 use Controller\HomeController;
 use Controller\ImageController;
+use Controller\UsersController;
 use ErrorException;
 use Exception;
 use model\MajorErrorHandler;
@@ -65,6 +66,7 @@ if(!register_shutdown_function(MajorErrorHandler::errorHandler()))
     $router = new Router($implode,[
         HomeController::class,
         ImageController::class,
+        UsersController::class
     ]);
     $router->start();
 }

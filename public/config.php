@@ -8,6 +8,7 @@ use model\Binder;
 define('USERS','/Users/');
 $imageBinder = new Binder();
 $root = $imageBinder->getFiles(USERS);
+define('ROOT_USERS',USERS.$root[4].'/');
 define('ROOT_TO_DOWNLOAD',USERS.$root[4].'/'.'Downloads'.'/');
 define('ROOT_TO_DESKTOP',USERS.$root[4].'/'.'Desktop'.'/');
 define('ROOT_TO_DOCUMENT',USERS.$root[4].'/'.'Documents'.'/');
@@ -21,6 +22,7 @@ define('DOCS','docs');
 define('FILES_AUDIO_VIDEO','audio_video');
 define('FILES_UNIDENTIFIED','non_idetentifier');
 define('FILES_RAND','files');
+define('IN_USER_DOWNLOAD',USERS.$root[4].'/'.'Downloads');
 
 class AllFilesStatic 
 {

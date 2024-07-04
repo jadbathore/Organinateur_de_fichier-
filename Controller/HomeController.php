@@ -40,7 +40,6 @@ affiche :
 )
 */
 
-
 #[Route('/')]
 class HomeController extends AbstractImplementor 
 {
