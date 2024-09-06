@@ -1,0 +1,38 @@
+{% extends 'error/errorBase.html.twig'%}
+
+{% block body %}
+{% if severity == 0%}
+<h1 class="bg-warning text-white p-5">{{message_error}}</h1>
+<div class="m-3 card bg-warning text-white">
+    <h2 class="card-header">erreur complète : </h2>
+    <ul class="list-group list-group-flush">
+        <li class="list-group p-3">
+            <h3>Message :</h3>
+            <p> {{error}}</p>
+        </li>
+    </ul>
+    </div>
+{% else %}
+<h1 class="bg-danger text-white p-5">{{message_error}}...</h1>
+<div class="m-3 card bg-danger text-white">
+    <h2 class="card-header">erreur complète : </h2>
+    <ul class="list-group list-group-flush">
+        <li class="list-group p-3">
+            <h3>ligne :</h3>
+            <p >Erreur ligne : <strong class="fs-3"> {{line}} </strong></p>
+        </li>
+        <li class="list-group p-3">
+            <h3>Message :</h3>
+            <p> {{error}}</p>
+        </li>
+        <li class="list-group p-3">
+            <h3>Dossier concerné :</h3>
+            <p class="fs-2"><ins><strong>{{file}}</strong></ins></p>
+        </li>
+    </ul>
+    </div>
+{% endif %}
+
+
+{% endblock %}
+
