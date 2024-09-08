@@ -9,7 +9,6 @@ use model\enum\Type;
 use model\enum\User;
 use model\Twig\AbstractImplementor;
 
-use function main\display;
 
 #[Route('/user')]
 class UsersController extends AbstractImplementor
@@ -44,22 +43,35 @@ class UsersController extends AbstractImplementor
     public function display_in_file($array, $directory): array
     {
         foreach ($array as $file) {
+            if($file)
             $case = Type::typefile($file);
-            $types_of_files = Type::stringcases($case);
-            $test['type'] = $types_of_files;
-            $test['file'] = $file;
-            if ($case != Type::Use_Docs) {
+            $userCase = User::typefile($file);
+            if(($userCase !=  User::CoddingApp) and ($userCase != User::ToNotDisplay))
+            {
+                $types_of_files = User::nameSelected($userCase);
+                $test['type'] = $types_of_files;
+                $test['file'] = $file;
+                $test['sub_file'] = [];
                 if ($case == Type::Files) {
                     $sub_files = $this->binder->getFiles($directory . $file);
-                    $test['sub_file'] = $sub_files;
+                    foreach($sub_files as $sub)
+                    {
+                        $casefile = Type::typefile($sub);
+                        if($casefile != Type::MacsSpecialFile)
+                        {
+                            $test['sub_file'][] = $sub;
+                        } 
+                    } 
+                    if(empty($test['sub_file']))
+                    {
+                        $test['sub_file'] = null;
+                    }
                 } else {
                     unset($test['sub_file']);
                 }
-            } else {
-                unset($test['sub_file']);
+                $test['root'] = $directory . $file;
+                $other[] = $test;
             }
-            $test['root'] = $directory . $file;
-            $other[] = $test;
         }
         return $other;
     }

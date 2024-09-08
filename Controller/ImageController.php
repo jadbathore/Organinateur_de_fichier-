@@ -61,9 +61,8 @@ class ImageController extends AbstractImplementor
         foreach($arrayDirectory as $directory)
         {
             $type = Type::typefile($directory);
-            $type_files =  Type::forSelect($type)['file'];
+            $type_files = Type::forSelect($type)['file'];
             $size = filesize(PATH_TO_IMAGE.'/'.$directory);
-            $toDisplay[$i]['type'] = $type_files;
             $toDisplay[$i]['name'] = $directory;
             $toDisplay[$i]['size'] = $size;
             $image = Image::ImageType(PATH_TO_IMAGE.'/'.$directory,$type);

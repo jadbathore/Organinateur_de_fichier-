@@ -5,7 +5,6 @@ namespace model;
 use Exception;
 use model\Attributes\CommunFunction;
 
-use function main\display;
 
 class Commun {
 

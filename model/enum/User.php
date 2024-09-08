@@ -1,23 +1,27 @@
 <?php
 namespace model\enum;
 
-enum User
+enum User: string
 {
-    case UseDocs;
-    case CoddingApp;
-    case Other; 
-    case Error ;
+    case SourceFile = 'Source file';
+    case CoddingApp = 'CoddingAPP';
+    case Other = 'Other document '; 
+    case ToNotDisplay = 'NONE';
+    case Error = 'Error';
 
     public const typeDocs = [
         "Desktop",
         "Documents",
         "Downloads",
         "Movies",
-        "Library",
         "Pictures",
-        "anaconda3",
         "Music",
         "Public",
+
+    ];
+
+    public const ToNotDisplayfile = [
+        "Library",
         "Applications"
     ];
 
@@ -33,12 +37,16 @@ enum User
                     return static::Other;
                 }
             } else {
-                if(in_array($file,self::typeDocs))
+                switch(true)
                 {
-                    return static::UseDocs;
-                } else {
-                    return static::Other;
+                    case(in_array($file,self::typeDocs)):return static::SourceFile;break;
+                    case(in_array($file,self::ToNotDisplayfile)):return static::ToNotDisplay;break;
+                    default : return static::Other;
                 }
             }
+    }
+    public static function nameSelected(self $typeImage):string
+    {
+        return $typeImage->value;
     }
 }

@@ -7,7 +7,6 @@
  <thead>
     <tr>
         <th class="col fs-4 p-3">nom de l'image</th>
-        <th class="col fs-4 p-3">Type de contenu</th>
         <th class="col fs-4 p-3">Type d'image</th>
         <th class="col fs-4 p-3">Taille du fichier</th>
     </tr>
@@ -16,7 +15,6 @@
  <tbody >
 <tr>
     <th class="text-break">{{ contents.name}}</th> 
-    <td>{{ contents.type}}</td>
     <td>{{ contents.image_type}}</td>
 
     {% if contents.size|length <= 3 %}

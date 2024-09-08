@@ -45,7 +45,7 @@ enum Type: int
     public static function typefile(string $file): static
     {
         switch(true){
-            case ($file == '.localized'): return static::Files;break;
+            case ($file == '.localized'): return static::MacsSpecialFile;break;
             case ($file == '.DS_Store'): return static::MacsSpecialFile;break;
             case (str_contains($file,'.')): 
                 $silcedfile = explode('.', $file);
@@ -61,6 +61,7 @@ enum Type: int
             case(in_array($file,AllFilesStatic::definer()['files'])): return static::Use_Docs;
             default : return static::Files;
         }
+
     }
 
 
@@ -70,6 +71,7 @@ enum Type: int
         {
         self::Error => ['error'],
         self::Use_Docs => ['file' => 'app_docs'],
+        self::MacsSpecialFile => ['file'=> 'MacOs'],
         self::Files => 
         [
             'file' => AllFilesStatic::definer()['files'][$case->value],
@@ -87,7 +89,6 @@ enum Type: int
 
     public static function stringcases(self $cases)
     {
-        
         return self::stringvalue[$cases->value];
     }
 }

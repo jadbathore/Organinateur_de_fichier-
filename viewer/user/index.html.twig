@@ -6,7 +6,7 @@
         Permet de ranger l'users docs
     </h1>
     <ul>
-        <li> replace touts les fichier non primaire et non 'coddingapp' tel que ".symfony5" par exemple dans 
+        <li> replace touts les fichier non source file et non 'coddingapp' tel que ".symfony5" par exemple dans 
         le fichier document qui devra etre rangé par la suite
         (crée si cela n'est pas déja le cas)</li>
     </ul>
@@ -30,9 +30,13 @@
                 <td>{{ sub_content.file }}</td>
                 <td>
                     <ul>
+                        {% if  sub_content.sub_file is defined and  sub_content.sub_file is not null %}
                         {% for sub_file in sub_content.sub_file %}
                         <li>{{sub_file}}</li>
                         {% endfor %}
+                        {% else %}
+                        <p class="p-1 text-primary text-center"><strong>Aucun contenu dans ce dossier</strong></p>
+                        {% endif %}
                     </ul>
                 </td>
             </tr>

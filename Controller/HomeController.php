@@ -92,7 +92,7 @@ class HomeController extends AbstractImplementor
                         rename(ROOT_TO_DESKTOP.$file,ROOT_TO_DOCUMENT.$file);
                     }
 
-                    $to_organize = $this->binder->getFiles(ROOT_TO_DOCUMENT);;
+                    $to_organize = $this->binder->getFiles(ROOT_TO_DOCUMENT);
                     break;
                 default:throw new Exception("aucun fichier ".$_POST['file_to_organize']."n'est autorisé");break;
             }
@@ -100,7 +100,7 @@ class HomeController extends AbstractImplementor
             $this->binder->createFile();
             foreach ($to_organize as $files) 
             {
-                if (Type::typefile($files) != Type::Use_Docs) {
+                if (Type::typefile($files) != Type::Use_Docs OR Type::typefile($files) != Type::MacsSpecialFile ) {
                     $type_of_File = Type::typefile($files);
                     $this->binder->slicesFiles($type_of_File, $files);
                 }
@@ -115,23 +115,31 @@ class HomeController extends AbstractImplementor
     {
         foreach ($array as $file) {
             $case = Type::typefile($file);
-            $types_of_files = Type::stringcases($case);
-            $test['type'] = $types_of_files;
-            $test['file'] = $file;
-            if ($case != Type::Use_Docs) {
-                if ($case == Type::Files) {
-                    $binder = new Binder;
-                    $sub_files = $binder->getFiles($directory . $file);
-                    $test['sub_file'] = $sub_files;
+            if($case !== Type::MacsSpecialFile)
+            {
+                $types_of_files = Type::stringcases($case);
+                $test['type'] = $types_of_files;
+                $test['file'] = $file;
+                if ($case != Type::Use_Docs) {
+                    $test['sub_file'] = [];
+                    if ($case == Type::Files) {
+                        $binder = new Binder;
+                        $sub_files = $binder->getFiles($directory . $file);
+                        $test['sub_file'] = $sub_files;
+                    } else {
+                        unset($test['sub_file']);
+                    }
                 } else {
                     unset($test['sub_file']);
                 }
-            } else {
-                unset($test['sub_file']);
+                $test['root'] = $directory . $file;
+                $other[] = $test;
             }
-            $test['root'] = $directory . $file;
-            $other[] = $test;
         }
-        return $other;
+        if(!isset($other))
+            {
+                $other[] = null;
+            }
+            return $other;
     }
 }
