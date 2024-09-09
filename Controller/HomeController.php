@@ -100,7 +100,7 @@ class HomeController extends AbstractImplementor
             $this->binder->createFile();
             foreach ($to_organize as $files) 
             {
-                if (Type::typefile($files) != Type::Use_Docs OR Type::typefile($files) != Type::MacsSpecialFile ) {
+                if (Type::typefile($files) != Type::Use_Docs and Type::typefile($files) != Type::MacsSpecialFile ) {
                     $type_of_File = Type::typefile($files);
                     $this->binder->slicesFiles($type_of_File, $files);
                 }
@@ -120,14 +120,14 @@ class HomeController extends AbstractImplementor
                 $types_of_files = Type::stringcases($case);
                 $test['type'] = $types_of_files;
                 $test['file'] = $file;
-                if ($case != Type::Use_Docs) {
-                    $test['sub_file'] = [];
-                    if ($case == Type::Files) {
-                        $binder = new Binder;
-                        $sub_files = $binder->getFiles($directory . $file);
+                $test['sub_file'] = [];
+                if (($case == Type::Files) OR ($case == Type::Use_Docs)) {
+                    $sub_files = $this->binder->getFiles($directory . $file);
+                    if(!empty($sub_files))
+                    {
                         $test['sub_file'] = $sub_files;
-                    } else {
-                        unset($test['sub_file']);
+                    }else{
+                        $test['sub_file'] = null;
                     }
                 } else {
                     unset($test['sub_file']);

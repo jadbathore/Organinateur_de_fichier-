@@ -1,7 +1,7 @@
 <?php
-
 namespace Controller;
 
+use Directory;
 use Exception;
 use model\enum\Image;
 use model\enum\Type;
@@ -12,6 +12,7 @@ use model\Attributes\Route;
 use model\Twig\AbstractImplementor;
 
 use function main\display;
+use function PHPSTORM_META\type;
 
 /* image controller d'afficher puis compresser la taille des images. 
 exemple : pour le dossier que download/image la taille total des fichiers était de 79.85mo puis elle 
@@ -23,7 +24,10 @@ class ImageController extends AbstractImplementor
     #[Route(''),RequestMethod('GET'),CommunFunction('image')]
     public function image(){   
     AllFilesStatic::test(ROOT_TO_DOWNLOAD);
-    $imagefile = $this->binder->getFiles(PATH_TO_IMAGE);
+    $imagefileDownload = $this->binder->getFiles(ROOT_TO_DOWNLOAD.IMAGE);
+    $imagefileDocument = $this->binder->getFiles(ROOT_TO_DOCUMENT.IMAGE);
+    $imagefile[ROOT_TO_DOCUMENT] = $imagefileDocument;
+    $imagefile[ROOT_TO_DOWNLOAD] = $imagefileDownload;
     $dirImage = $this->display_in_file($imagefile);
     $totalSize = $this->total_size_dir($imagefile);
     static $image = serialize($imagefile);
@@ -40,51 +44,65 @@ class ImageController extends AbstractImplementor
     public function imagePost(...$sharedstatics)
     {
         $to_resize = unserialize($sharedstatics['image']);
-        foreach($to_resize as $image)
+        foreach($to_resize as $key=>$images)
         {
-            $path = PATH_TO_IMAGE.'/'.$image;
-            $type = Type::typefile($path);
-            try {
-                $typeImage = Image::ImageType($path,$type);
-                $createdimage = Image::returncreateImage($typeImage,$path);
-                Image::UpdateImage($typeImage,$path,$createdimage);
-            } catch (Exception $execption)
+            foreach($images as $image)
             {
-                echo $this->flashMessage($execption->getMessage(),'bg-warning m-auto p-2 text-white text-center w-50 m-auto');
+                $path = $key.'image/'.$image;
+                $type = Type::typefile($path);
+                try {
+                    $typeImage = Image::ImageType($path,$type);
+                    $createdimage = Image::returncreateImage($typeImage,$path);
+                    Image::UpdateImage($typeImage,$path,$createdimage);
+                } catch (Exception $execption)
+                {
+                    echo $this->flashMessage($execption->getMessage(),'bg-warning m-auto p-2 text-white text-center w-50 m-auto');
+                }
             }
         }
 
     }
 
-    public function display_in_file($arrayDirectory):array {
+    public function display_in_file($arrayDirectory) {
         $i = 0;
-        foreach($arrayDirectory as $directory)
+        foreach($arrayDirectory as $dirpath=>$value)
         {
-            $type = Type::typefile($directory);
-            $type_files = Type::forSelect($type)['file'];
-            $size = filesize(PATH_TO_IMAGE.'/'.$directory);
-            $toDisplay[$i]['name'] = $directory;
-            $toDisplay[$i]['size'] = $size;
-            $image = Image::ImageType(PATH_TO_IMAGE.'/'.$directory,$type);
-            if($image != Image::Error)
+            foreach($value as $directory)
             {
-                $nameImage = Image::nameSelected($image);
-                $toDisplay[$i]['image_type'] = $nameImage;
-            } else {
-                $nameImage = Image::nameSelected($image,$type);
-                $toDisplay[$i]['image_type'] = $nameImage;
-            }
+                $type = Type::typefile($directory);
+                if($type != Type::MacsSpecialFile)
+                {
+                    $path = $dirpath.'image/'.$directory;
+                    $size = filesize($path);
+                    $toDisplay[$i]['name'] = explode('.',$directory)[0];
+                    $toDisplay[$i]['size'] = $size;
+                    $toDisplay[$i]['path'] = $path;
+                    $image = Image::ImageType($path,$type);
+                    if($type != Type::MacsSpecialFile)
+                    {
+                        $nameImage = Image::nameSelected($image);
+                        $toDisplay[$i]['image_type'] = $nameImage;
+                    } else {
+                        $nameImage = Image::nameSelected($image,$type);
+                        $toDisplay[$i]['image_type'] = $nameImage;
+                    }
             $i++;
+                }
+            }
+            
         }
         return $toDisplay;
     }
 
     public function total_size_dir($arrayDirectory): int {
         $total = 0;
-        foreach($arrayDirectory as $directory)
+        foreach($arrayDirectory as $pathdir=>$value)
         {
-            $size = filesize(PATH_TO_IMAGE.'/'.$directory);
-            $total += $size; 
+            foreach($value as $dir)
+            {
+                $size = filesize($pathdir.'image/'.$dir);
+                $total += $size;
+            }
         }
         return $total;
     }

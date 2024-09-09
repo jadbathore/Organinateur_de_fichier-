@@ -31,9 +31,15 @@
                 <td>
                     <ul>
                         {% if  sub_content.sub_file is defined and  sub_content.sub_file is not null %}
+                        <button class="btn btn-primary text-white dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            contenu dossier
+                        </button>
+                        <div style="max-height: 300px;max-width:300px;" class="dropdown-menu overflow-auto" aria-labelledby="dropdownMenuButton">
                         {% for sub_file in sub_content.sub_file %}
-                        <li>{{sub_file}}</li>
+                            <li class="dropdown-item">{{sub_file}}</li>
+                            <div class="dropdown-divider"></div>
                         {% endfor %}
+                        </div>
                         {% else %}
                         <p class="p-1 text-primary text-center"><strong>Aucun contenu dans ce dossier</strong></p>
                         {% endif %}
