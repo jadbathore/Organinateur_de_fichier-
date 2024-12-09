@@ -7,10 +7,10 @@
 
 .env
 /.htaccess
-
+/vendor 
 
 # ignore ALL files in ANY directory named public/versonning||dist ""
-vendor/*
+
 # Icon must end with two \r
 Icon
 
