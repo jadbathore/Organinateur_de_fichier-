@@ -96,7 +96,6 @@ class HomeController extends AbstractImplementor
                     break;
                 default:throw new Exception("aucun fichier ".$_POST['file_to_organize']."n'est autorisé");break;
             }
-
             $this->binder->createFile();
             foreach ($to_organize as $files) 
             {

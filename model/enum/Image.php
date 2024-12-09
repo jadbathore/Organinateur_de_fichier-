@@ -77,5 +77,4 @@ enum Image:string {
     {
         return $typeImage->value;
     }
-
 }

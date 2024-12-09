@@ -17,12 +17,13 @@ enum User: string
         "Pictures",
         "Music",
         "Public",
-
+        "anaconda3"
     ];
 
     public const ToNotDisplayfile = [
         "Library",
-        "Applications"
+        "Applications",
+        "anaconda3"
     ];
 
     public static function typefile(string $file): static

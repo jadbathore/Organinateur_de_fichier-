@@ -1,11 +1,14 @@
 <?php
 
-use function main\display;
+// use function main\display;
 
-use model\Binder;
-use model\enum\Type;
+// use model\Binder;
+// use model\enum\Type;
 
-require_once '../vendor/autoload.php';
-require_once 'ModelAutoloader.php';
-require 'config.php';
+// require_once '../vendor/autoload.php';
+// require_once 'ModelAutoloader.php';
+// require 'config.php';
+
+
+print_r($argv);
 
