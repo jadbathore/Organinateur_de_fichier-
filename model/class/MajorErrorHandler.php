@@ -1,8 +1,8 @@
 <?php
 
-namespace model;
+namespace model\class;
 
-use model\Twig\AbstractImplementor;
+use model\abstract\AbstractImplementor;
 use Twig\Node\Expression\FunctionExpression;
 
 class MajorErrorHandler extends AbstractImplementor
@@ -35,3 +35,4 @@ class MajorErrorHandler extends AbstractImplementor
         };
     }
 }
+

@@ -2,15 +2,12 @@
 namespace Controller;
 
 use Exception;
-use model\Binder;
 use main\AllFilesStatic;
 use model\Attributes\CommunFunction;
 use model\Attributes\RequestMethod;
 use model\Attributes\Route;
 use model\enum\Type;
-use model\Twig\AbstractImplementor;
-
-use function main\display;
+use model\abstract\AbstractImplementor;
 
 /*
 home controller permet d'afficher pour de ranger les fichiers,

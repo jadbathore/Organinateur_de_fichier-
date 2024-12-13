@@ -1,5 +1,5 @@
 <?php
-namespace model;
+namespace model\class;
 
 use Stringable;
 

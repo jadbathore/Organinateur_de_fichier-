@@ -13,16 +13,14 @@ require_once 'ModelAutoloader.php';
 require('config.php');
 
 
-use model\Binder;
 use Controller\HomeController;
 use Controller\ImageController;
 use Controller\UsersController;
-use ErrorException;
 use Exception;
-use model\MajorErrorHandler;
-use model\Router;
-use model\Twig\TwigLoader;
-
+use model\class\Binder;
+use model\class\MajorErrorHandler;
+use model\class\Router;
+use model\class\Twig\TwigLoader;
 
 $uri = $_SERVER['REQUEST_URI'];
 $explode = explode('/',$uri);

@@ -2,7 +2,7 @@
 
 namespace main;
 
-use model\Binder;
+use model\class\Binder;
 
 //---------------"root-files"------------------------------------------
 define('USERS','/Users/');

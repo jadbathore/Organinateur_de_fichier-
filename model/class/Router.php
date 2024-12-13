@@ -1,6 +1,6 @@
 <?php
 
-namespace model;
+namespace model\class;
 
 use Exception;
 use model\Attributes\CommunFunction;
@@ -8,7 +8,7 @@ use model\Twig\TwigImplementor;
 use ReflectionClass;
 use model\Attributes\Route;
 use model\Attributes\RequestMethod;
-use model\Twig\AbstractImplementor;
+use model\abstract\AbstractImplementor;
 
 use function main\display;
 

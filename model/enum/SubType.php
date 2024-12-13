@@ -2,7 +2,7 @@
 namespace model\enum;
 
 use main\AllFilesStatic;
-use model\Binder;
+use model\class\Binder;
 
 enum SubType:int 
 {

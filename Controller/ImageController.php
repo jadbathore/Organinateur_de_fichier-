@@ -9,10 +9,7 @@ use main\AllFilesStatic;
 use model\Attributes\CommunFunction;
 use model\Attributes\RequestMethod;
 use model\Attributes\Route;
-use model\Twig\AbstractImplementor;
-
-use function main\display;
-use function PHPSTORM_META\type;
+use model\abstract\AbstractImplementor;
 
 /* image controller d'afficher puis compresser la taille des images. 
 exemple : pour le dossier que download/image la taille total des fichiers était de 79.85mo puis elle 

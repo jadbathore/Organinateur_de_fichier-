@@ -1,7 +1,10 @@
 <?php
-namespace model\Twig;
+namespace model\abstract;
 
 use Exception;
+use model\class\Binder;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 abstract class AbstractImplementor
 {
@@ -9,9 +12,9 @@ abstract class AbstractImplementor
         public ?object $twigObject = null,
         public ?object $binder = null,
         ) {
-        $loader = new \Twig\Loader\FilesystemLoader('../viewer/');
-        $this->twigObject = new \Twig\Environment($loader);
-        $this->binder = new \model\Binder;
+        $loader = new FilesystemLoader('../viewer/');
+        $this->twigObject = new Environment($loader);
+        $this->binder = new Binder();
         $binder = $this->binder;
         global $binder;
     }

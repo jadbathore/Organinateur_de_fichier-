@@ -1,6 +1,6 @@
 <?php
 
-namespace model;
+namespace model\class;
 
 use Exception;
 use model\Attributes\CommunFunction;

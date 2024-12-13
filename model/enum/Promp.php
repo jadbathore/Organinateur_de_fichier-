@@ -4,17 +4,16 @@ namespace model\enum;
 
 
 enum Promp:string {
+    case download="DONWLOAD";
+    case desktop="DESKTOP";
+    case document="DOCUMENT";
+    case undefined="UNDEFINED";
 
-    case ApplicationName="Application name";
-    case option="option";
-    case command="command";
 
-    public static function type_promp(string $file,bool $first_promps = false): static
+    public static function type_promp(string $type): static
     {
-        switch(true){
-            case $first_promps :return static::ApplicationName;break;
-            case (str_contains($file,"-")):return static::option;break;
-            default: return static::command;
-        }
+        
+        
+        return (in_array(self::from($type),self::cases()))? static::undefined :self::from($type);
     }
 }

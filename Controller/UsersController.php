@@ -7,7 +7,7 @@ use model\Attributes\Route;
 use model\Attributes\RequestMethod;
 use model\enum\Type;
 use model\enum\User;
-use model\Twig\AbstractImplementor;
+use model\abstract\AbstractImplementor;
 
 
 #[Route('/user')]
