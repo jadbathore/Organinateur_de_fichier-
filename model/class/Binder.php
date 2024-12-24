@@ -8,6 +8,7 @@ use model\enum\SubType;
 
 class Binder
 {
+    
     public function getFiles($directory)
     {
         try {
@@ -48,6 +49,7 @@ class Binder
             AllFilesStatic::definer()['paths'],
             AllFilesStatic::definer()['sub_paths']
         );
+
         foreach ($allfiles_to_create as $path) {
             if (!is_dir($path)) {
                 mkdir($path, 0777);

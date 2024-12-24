@@ -9,4 +9,6 @@ interface methodCLIInterface {
     public function getClass():string;
     public function addPromps(mixed $index,mixed $item):void;
     public function getPromps():null|array;
+    public function invokeFromPromps():void;
+    
 }

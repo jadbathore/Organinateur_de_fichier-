@@ -2,7 +2,6 @@
 
 namespace model\abstract;
 
-use model\PrompsHandler;
 
 abstract class abstractAttributHandler 
 {

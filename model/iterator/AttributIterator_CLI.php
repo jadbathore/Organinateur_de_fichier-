@@ -2,25 +2,20 @@
 
 namespace model\iterator;
 
-use \Iterator;
+// use \Iterator;
 use model\class\IteratorAggregate\classAttributHandler_CLI;
 use model\class\IteratorAggregate\raisedmethodHandler_CLI;
 use model\interface\methodCLIInterface;
 
 class AttributIterator_CLI implements \Iterator
 {
-    private classAttributHandler_CLI|raisedmethodHandler_CLI $collection;
-    private $index = 0;
+    private int $index = 0;
 
-    /**
-     * @var bool This variable indicates the traversal direction.
-     */
-    private $reverse = false;
-
-    public function __construct($collection, $reverse = false)
+    public function __construct(
+        private classAttributHandler_CLI|raisedmethodHandler_CLI $collection,
+        private bool $reverse = false
+        )
     {
-        $this->collection = $collection;
-        $this->reverse = $reverse;
     }
 
     public function rewind():void

@@ -5,7 +5,8 @@ namespace model\enum;
 use Exception;
 use GdImage;
 
-enum Image:string {
+enum Image:string
+{
 
     case Gif = 'gif';
     case Jpg = 'jpeg';
@@ -15,7 +16,7 @@ enum Image:string {
     case avif = 'avif';
     case Error = '';
 
-    public static function ImageType(string $image,Type $fileType)
+    public static function  ImageType(string $image,Type $fileType):self
     {
         if($fileType != Type::Image)
         {

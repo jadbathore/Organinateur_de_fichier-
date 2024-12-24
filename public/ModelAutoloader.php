@@ -11,10 +11,11 @@ class ModelAutoloading
         $explode_class = $explode_class = explode("\\",$class);
         $test = implode('/',$explode_class);
         $base_DIR = implode(explode('public',__DIR__));
+        $class_DIR = $base_DIR . $test.".php";
         try {
-            require($base_DIR . $test.'.php');
+            require $class_DIR;
         } catch (\Throwable $e) {
-            echo "This was caught: " . $e->getMessage();
+            echo "\e[31m"." This was caught:\n".$class_DIR. "\e[0m"."\n";
         }
     }
 }

@@ -3,17 +3,15 @@
 namespace model\enum;
 
 
-enum Promp:string {
+enum Promp:string
+{
     case download="DONWLOAD";
     case desktop="DESKTOP";
     case document="DOCUMENT";
     case undefined="UNDEFINED";
 
-
-    public static function type_promp(string $type): static
+    public static function sorting_a_type(string $type): self
     {
-        
-        
         return (in_array(self::from($type),self::cases()))? static::undefined :self::from($type);
     }
 }

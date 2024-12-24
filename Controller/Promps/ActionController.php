@@ -2,38 +2,35 @@
 namespace Controller\Promps;
 
 use Error;
+use model\abstract\abstractPrompsController;
 use model\Attributes\Promps\Command;
 use model\Attributes\Promps\Option;
-use model\enum\Promp;
 
-class ActionController 
+class ActionController extends abstractPrompsController
 {
-
     #[Command('organise'),Option(['-dir'=>'<directive>'])]
-    public function testCli(?array $option){
-        var_dump($option['-dir']);
-        switch(true)
+    public function organise(null|string|bool $dir){
+        switch(gettype($dir))
         {
-            case (!isset($option)):throw new Error('the -dir MUST be use');
-            case ($option['-dir'] == "FALSE") :throw new Error('the -dir option must specifie a directive to organise');
-            default: 
-            $type = Promp::type_promp(strtoupper($option['-dir']));
-            var_dump($type);
+            case "string":
+                $this->setOrganisator('testdir');
+            break;
+            case "boolean":
+                throw new Error(
+                $this->getColoring()->color("you must prompt one of those dir witch are:\n","red","underline").
+                $this->getColoring()->color("-downloads\n-desktop\n-documents\n","red"));
+            break;
         }
-        // $downloads = $this->binder->getFiles(ROOT_TO_DOWNLOAD);
-        // $desktop = $this->binder->getFiles(ROOT_TO_DESKTOP);
-        // $documents = $this->binder->getFiles(ROOT_TO_DOCUMENT);
-        // $allfiles = [];
-        // $allfiles['downloads'][] = (new HomeController)->display_in_file($downloads, ROOT_TO_DOWNLOAD);
-        // $allfiles['downloads'][] = ROOT_TO_DOWNLOAD;
-        // $allfiles['desktop'][] = (new HomeController)->display_in_file($desktop, ROOT_TO_DESKTOP);
-        // $allfiles['desktop'][] = ROOT_TO_DESKTOP;
-        // $allfiles['documents'][] = (new HomeController)->display_in_file($documents, ROOT_TO_DOCUMENT);
-        // $allfiles['documents'][] = ROOT_TO_DOCUMENT;
+        $this->getOrganisator()
+        ->bind_and_organiseFile();
+
     }
-    #[Command('test'),Option(['-test'=>'<dtest>',"-b"=>true])]
-    public function test(?array $option)
+
+
+    #[Command('test'),Option(['-test'=>'<dtest>','-b'=>true])]
+    public function test(null|string|bool $dtest,null|bool $b)
     {
-        // var_dump($option);
+        $this->getColoring()
+        ->color("bonjour","bgred");
     }
 }

@@ -88,7 +88,6 @@ class HomeController extends AbstractImplementor
                     {
                         rename(ROOT_TO_DESKTOP.$file,ROOT_TO_DOCUMENT.$file);
                     }
-
                     $to_organize = $this->binder->getFiles(ROOT_TO_DOCUMENT);
                     break;
                 default:throw new Exception("aucun fichier ".$_POST['file_to_organize']."n'est autorisé");break;
@@ -105,8 +104,6 @@ class HomeController extends AbstractImplementor
         } 
     }
     
-
-
     public function display_in_file($array, $directory): array
     {
         foreach ($array as $file) {

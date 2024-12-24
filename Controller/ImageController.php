@@ -1,7 +1,6 @@
 <?php
 namespace Controller;
 
-use Directory;
 use Exception;
 use model\enum\Image;
 use model\enum\Type;

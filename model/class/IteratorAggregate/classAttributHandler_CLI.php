@@ -5,7 +5,6 @@ namespace model\class\IteratorAggregate;
 use model\iterator\AttributIterator_CLI;
 use \IteratorAggregate;
 use model\interface\methodCLIInterface;
-use \Iterator;
 
 class classAttributHandler_CLI implements IteratorAggregate
 {
@@ -25,12 +24,12 @@ class classAttributHandler_CLI implements IteratorAggregate
         $this->items[] = $item;
     }
 
-    public function getIterator(): Iterator
+    public function getIterator(): \Iterator
     {
         return new AttributIterator_CLI($this);
     }
 
-    public function getReverseIterator(): Iterator
+    public function getReverseIterator(): \Iterator
     {
         return new AttributIterator_CLI($this, true);
     }

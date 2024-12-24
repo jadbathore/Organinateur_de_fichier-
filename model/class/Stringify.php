@@ -8,7 +8,7 @@ class Stringify implements Stringable
 {
 
     public function __construct(
-        public $object,
+        public mixed $object,
     ) {
         $this->object = $object;
     }

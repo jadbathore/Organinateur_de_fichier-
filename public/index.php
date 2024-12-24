@@ -18,8 +18,9 @@ use Controller\ImageController;
 use Controller\UsersController;
 use Exception;
 use model\class\Binder;
+use model\class\ControllerHandler\Router;
 use model\class\MajorErrorHandler;
-use model\class\Router;
+
 use model\class\Twig\TwigLoader;
 
 $uri = $_SERVER['REQUEST_URI'];

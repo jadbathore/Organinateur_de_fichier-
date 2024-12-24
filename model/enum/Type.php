@@ -3,9 +3,7 @@ namespace model\enum;
 
 use main\AllFilesStatic;
 
-
-
-enum Type: int
+enum Type: int 
 {
     case Image = 0;
     case Coding = 1;

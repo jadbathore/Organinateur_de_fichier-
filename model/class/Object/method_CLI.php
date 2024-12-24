@@ -1,6 +1,6 @@
 <?php
 
-namespace model\class;
+namespace model\class\Object;
 
 use model\Attributes\Promps\Command;
 use model\Attributes\Promps\Option;
@@ -30,8 +30,7 @@ class method_CLI implements methodCLIInterface {
 
     private function setCommand()
     {
-        $attributes_Command = $this->method->getAttributes(Command::class)[0]
-        ->getArguments()[0];
+        $attributes_Command = current($this->method->getAttributes(Command::class))?->getArguments()[0];
         $this->command = $attributes_Command;
     }
 
@@ -66,6 +65,17 @@ class method_CLI implements methodCLIInterface {
     public function getClass():string
     {
         return $this->method->class;
+    }
 
+    public function invokeFromPromps(): void
+    {
+        $className = $this->getClass();
+        $invokable = new $className;
+        if(is_null($this->getPromps()))
+        {
+            $this->method->invoke($invokable,$this->getPromps());
+        } else {
+            $this->method->invoke($invokable,...array_values($this->getPromps()));
+        }
     }
 }
