@@ -11,5 +11,8 @@ try{
     $action = new actionControllerHandler(ActionController::class,$argv);
     $action->start();
 }catch(Error $e){
-    echo $e->getMessage();
+    echo $e;
 }
+
+
+// var_dump($argv);

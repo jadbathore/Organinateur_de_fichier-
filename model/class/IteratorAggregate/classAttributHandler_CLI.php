@@ -10,7 +10,6 @@ class classAttributHandler_CLI implements IteratorAggregate
 {
     private $items = [];
 
-    
     public function __construct(private \ReflectionClass $method) 
     {}
 
@@ -33,6 +32,6 @@ class classAttributHandler_CLI implements IteratorAggregate
     {
         return new AttributIterator_CLI($this, true);
     }
+ 
 
-    
 }

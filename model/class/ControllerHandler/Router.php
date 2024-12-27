@@ -4,14 +4,12 @@ namespace model\class\ControllerHandler;
 
 use Exception;
 use model\Attributes\CommunFunction;
-use model\Twig\TwigImplementor;
 use ReflectionClass;
 use model\Attributes\Route;
 use model\Attributes\RequestMethod;
 use model\abstract\AbstractImplementor;
 use model\class\Stringify;
 use model\class\Commun;
-use function main\display;
 
 class Router extends AbstractImplementor
 {

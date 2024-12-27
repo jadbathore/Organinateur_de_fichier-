@@ -67,6 +67,7 @@ class Organisator {
 
     public function bind_and_organiseFile()
     {
+        $this->createFile();
         foreach($this->definedRootPropreties ?? [$this->dir] as $root)
         {
             $arrayFile = $this->getFiles($root);
@@ -80,8 +81,7 @@ class Organisator {
                         {       
                             $transferPath = ROOT_TO_DOCUMENT.$file;
                             rename($file_Class->getFileName(),$transferPath);
-                        }else {
-                            $this->createFile();
+                        } else {
                             rename($file_Class->getFileName(),$file_Class->findAccordingPath());
                         }
                     }
@@ -94,9 +94,12 @@ class Organisator {
         foreach($this->definedRootPropreties ?? [$this->dir] as $root)
         {
             foreach ($this->fileOrganizeName as $namePath) {
-                $namedir = $root . $namePath;
-                if (!is_dir($namedir)) {
-                    mkdir($namedir, 0777);
+                if($root != ROOT_TO_DESKTOP)
+                {
+                    $namedir = $root . $namePath;
+                    if (!is_dir($namedir)) {
+                        mkdir($namedir, 0777);
+                    }
                 }
             }
         }

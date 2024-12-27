@@ -31,10 +31,10 @@ class Coloring implements SingleToneInterface
         return self::$instance;
     }
 
-    public function color(string $text,string $color,null|string $textmodif=null,?string $followingColor=null):void
+    
+    public function color(string $text,string $color,mixed ...$modif):void
     {
-        $followingColor =(is_null($followingColor))?"\e[0m":Text::formatColoring($followingColor,$textmodif);
-        $format = Text::formatColoring($color,$textmodif);
-        echo $format.$text.$followingColor;
+        $format = Text::formatColoring($color,$modif);
+        echo $format.$text."\e[0m";
     }
 }

@@ -5,9 +5,9 @@ namespace model\Attributes\Promps;
 use Attribute;
 
 #[Attribute]
-class Exaemple {
+class Description {
     public function __construct(
-        private string|array $method = null,
+        private string $method = null,
     )
     {
         $this->method = $method;

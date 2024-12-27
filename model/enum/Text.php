@@ -23,10 +23,9 @@ enum Text:string implements colorInterface
         };
     }
 
-    static public function formatColoring(string $input,?string $textmodif = null):string
+    static public function formatColoring(string $input,mixed ...$textmodif):string
     {
         $getType = self::type_text($input);
-        $food = 'cake';
         $return_value = match ($getType) {
             self::bgColoring => "4",
             self::Coloring => "3",
@@ -36,8 +35,24 @@ enum Text:string implements colorInterface
         {
             $input = implode(explode('bg',$input));
         }
+        $textmodifArray = [];
+        foreach(current($textmodif) as $argument_modif)
+        {
+            $textmodifArray[] = Text::formatTextModif($argument_modif ?? '');
+        }
         $key = array_search($input,self::Colour);
-        $textmodification = (($f = array_search($textmodif,self::acceptableTextModif))!= false)?";".$f:'';
+        $textmodification =(empty($textmodif))?'':implode('',$textmodifArray);
         return "\e[".$return_value.$key.$textmodification."m";
+    }
+
+    static private function formatTextModif(string $input):?string
+    {
+        if(self::type_text($input) == self::TextModif)
+        {
+            $key = array_search($input,self::acceptableTextModif);
+            return ";".$key;
+        } else {
+            return null;
+        }
     }
 }

@@ -3,7 +3,9 @@
 namespace model\class\Object;
 
 use model\Attributes\Promps\Command;
+use model\Attributes\Promps\Description;
 use model\Attributes\Promps\Option;
+use model\class\singleTone\Coloring;
 use model\interface\methodCLIInterface;
 use \ReflectionMethod;
 
@@ -11,12 +13,16 @@ class method_CLI implements methodCLIInterface {
 
     private ?array $options;
     private ?array $promps;
+    private ?string $description;
     private string $command;
+    private Coloring $coloringInstance;
 
     public function __construct(private ReflectionMethod $method)
     {
+        $this->coloringInstance = Coloring::instance();
         $this->setCommand();
         $this->setOptions();
+        $this->setDescription();
     }
 
     private function setOptions()
@@ -30,8 +36,20 @@ class method_CLI implements methodCLIInterface {
 
     private function setCommand()
     {
-        $attributes_Command = current($this->method->getAttributes(Command::class))?->getArguments()[0];
+        $attributes_Command = current($this->method->getAttributes(Command::class))->getArguments()[0];
         $this->command = $attributes_Command;
+    }
+
+    private function setDescription()
+    {
+        $condition = (($a = current($this->method->getAttributes(Description::class))) != false);
+        $attributes_Description = ($condition)?$a->getArguments()[0]:null;
+        $this->description = $attributes_Description;
+    }
+
+    public function getDescription(): ?string
+    {
+        return (isset($this->description))? $this->description:null;
     }
 
     public function getOptions(): null|array
@@ -77,5 +95,31 @@ class method_CLI implements methodCLIInterface {
         } else {
             $this->method->invoke($invokable,...array_values($this->getPromps()));
         }
+    }
+    public function method_debug_script():void 
+    {
+        foreach($this->method->getAttributes() as $attribut)
+        {
+            $basename_attribut = $this->getBaseName($attribut->getName());
+            $this->coloringInstance->color($basename_attribut.":","green","underline","bold");
+            switch($attribut->getName())
+            {
+                case Command::class:
+                    $this->coloringInstance->color($this->getCommand(),"green","italic");
+                break;
+                case Option::class:
+                    $this->coloringInstance->color("<".implode(">\t<",array_keys($this->getOptions())).">","green","italic");
+                break;
+                case Description::class:
+                    $this->coloringInstance->color($this->getDescription(),"green","italic");
+                break;
+            }
+            echo PHP_EOL;
+        }
+    }
+    private function getBaseName(string $class):string
+    {
+        $explodeClass = explode("\\",$class);
+        return $explodeClass[count($explodeClass)-1];
     }
 }

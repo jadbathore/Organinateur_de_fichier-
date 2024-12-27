@@ -10,6 +10,7 @@ use model\class\IteratorAggregate\raisedmethodHandler_CLI;
 use model\class\Object\argv_CLI;
 use ReflectionClass;
 use model\class\Object\method_CLI;
+use model\class\singleTone\Coloring;
 use model\enum\Argv;
 
 class actionControllerHandler
@@ -18,18 +19,22 @@ class actionControllerHandler
     private classAttributHandler_CLI $attributIterator;
     private raisedmethodHandler_CLI $raisedMethodIterator;
     private argv_CLI $argvObject;
+    private Coloring $coloringInstance;
 
     public function __construct(
         private string $controller,
         array $argv,
     ) 
     {
+        $this->coloringInstance = Coloring::instance();
         $this->argvSetter($argv);
         $this->setAttributIterator();
         $this->setRaisedmethodIterator();
         if($this->argvObject->length == 0)
         {
-            throw new \Error('you must promps somthing');
+            // throw new \Error('you must promps somthing');
+            $this->defaultDebugScript();
+
         }
 
     }
@@ -55,12 +60,12 @@ class actionControllerHandler
 
     private function argvSetter(array $argv)
     {
-        $this->argvObject = new argv_CLI(array_slice($argv,1));
+
+        $this->argvObject = new argv_CLI((count($argv)<=1)?$argv:array_slice($argv,1));
     }
 
     public function start()
     {
-        // var_dump($this->attributIterator->getIterator()->valid());
         foreach($this->attributIterator->getIterator() as $method_CLI)
         {
             if($method_CLI->getCommand() == $this->argvObject->getCurrent())
@@ -109,8 +114,17 @@ class actionControllerHandler
                 $raisedMethod->invokeFromPromps();
             } 
         } else {
-            throw new \Error('command not found:"'.$this->argvObject->getPrompsArgv().'"');
+            // throw new \Error('command not found:"'.$this->argvObject->getPrompsArgv().'"');
+            $this->defaultDebugScript();
         }
-        
+    }
+
+    private function defaultDebugScript():void
+    {
+        foreach($this->attributIterator->getIterator() as $method_CLI)
+        {
+            $this->coloringInstance->color(str_repeat("=", 80)."\n","green");
+            $method_CLI->method_debug_script();
+        }
     }
 }

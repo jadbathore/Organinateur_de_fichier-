@@ -4,11 +4,17 @@ namespace Controller\Promps;
 use Error;
 use model\abstract\abstractPrompsController;
 use model\Attributes\Promps\Command;
+use model\Attributes\Promps\Description;
 use model\Attributes\Promps\Option;
 
 class ActionController extends abstractPrompsController
 {
-    #[Command('organise'),Option(['-dir'=>'<directive>'])]
+    #[Command('organise'),
+    Option(['-dir'=>'<directive>']),
+    Description(
+    "organise the file to between download/desktop/documents directory".
+    "\nchoose witch one you want with the [-dir] option"
+    )]
     public function organise(null|string|bool $dir){
         switch(gettype($dir))
         {
@@ -23,14 +29,21 @@ class ActionController extends abstractPrompsController
         }
         $this->getOrganisator()
         ->bind_and_organiseFile();
-
     }
 
-
-    #[Command('test'),Option(['-test'=>'<dtest>','-b'=>true])]
+    #[Command('test'),Option(['-test'=>'<dtest>','-b'=>true]),Description('Test function')]
     public function test(null|string|bool $dtest,null|bool $b)
     {
         $this->getColoring()
-        ->color("bonjour","bgred");
+        ->color("bonjour","green","underline","italic");
+    }
+
+    #[Command('debug'),
+    Description("Special method return this when the command"
+    ."\nin system or no input has been prompts")]
+    public function debug()
+    {
+        $this->getColoring()
+        ->color("debugging text","green");
     }
 }
