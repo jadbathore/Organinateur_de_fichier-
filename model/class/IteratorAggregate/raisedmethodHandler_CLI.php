@@ -21,11 +21,17 @@ class raisedmethodHandler_CLI implements IteratorAggregate
         $this->items[] = $item;
     }
 
+     /**
+     * @return \Traversable<TKey, methodCLIInterface>|methodCLIInterface[]
+     */
     public function getIterator(): Iterator
     {
         return new AttributIterator_CLI($this);
     }
 
+     /**
+     * @return \Traversable<TKey, methodCLIInterface>|methodCLIInterface[]
+     */
     public function getReverseIterator(): Iterator
     {
         return new AttributIterator_CLI($this, true);

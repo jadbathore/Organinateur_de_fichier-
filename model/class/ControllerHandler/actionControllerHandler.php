@@ -16,7 +16,7 @@ use model\enum\Argv;
 class actionControllerHandler
 {
 
-    private classAttributHandler_CLI $attributIterator;
+    private classAttributHandler_CLI $classAtributHandlerIterator;
     private raisedmethodHandler_CLI $raisedMethodIterator;
     private argv_CLI $argvObject;
     private Coloring $coloringInstance;
@@ -32,9 +32,7 @@ class actionControllerHandler
         $this->setRaisedmethodIterator();
         if($this->argvObject->length == 0)
         {
-            // throw new \Error('you must promps somthing');
-            $this->defaultDebugScript();
-
+            $this->invokeDebuggingMethod();
         }
 
     }
@@ -42,13 +40,13 @@ class actionControllerHandler
     private function setAttributIterator()
     {
         $reflec_class = new ReflectionClass($this->controller);
-        $this->attributIterator = new classAttributHandler_CLI($reflec_class);
+        $this->classAtributHandlerIterator = new classAttributHandler_CLI($reflec_class);
         foreach($reflec_class->getMethods() as $method)
         {
             if(!empty($method->getAttributes(Command::class)))
             {
                 $methodHandler = new method_CLI($method);
-                $this->attributIterator->addItem($methodHandler);
+                $this->classAtributHandlerIterator->addItem($methodHandler);
             }
         }
     }
@@ -64,9 +62,9 @@ class actionControllerHandler
         $this->argvObject = new argv_CLI((count($argv)<=1)?$argv:array_slice($argv,1));
     }
 
-    public function start()
+    public function start():void
     {
-        foreach($this->attributIterator->getIterator() as $method_CLI)
+        foreach($this->classAtributHandlerIterator->getIterator() as $method_CLI)
         {
             if($method_CLI->getCommand() == $this->argvObject->getCurrent())
             {
@@ -105,7 +103,7 @@ class actionControllerHandler
     }
 
 
-    private function invokeAllRaisedMethod()
+    private function invokeAllRaisedMethod():void
     {
         if(!empty($this->raisedMethodIterator->getItems()))
         {
@@ -115,16 +113,27 @@ class actionControllerHandler
             } 
         } else {
             // throw new \Error('command not found:"'.$this->argvObject->getPrompsArgv().'"');
-            $this->defaultDebugScript();
+            $this->invokeDebuggingMethod();
         }
     }
 
-    private function defaultDebugScript():void
+    private function defaultDebugScript(string $color = "green"):void
     {
-        foreach($this->attributIterator->getIterator() as $method_CLI)
+        foreach($this->classAtributHandlerIterator->getIterator() as $method_CLI)
         {
-            $this->coloringInstance->color(str_repeat("=", 80)."\n","green");
-            $method_CLI->method_debug_script();
+            $this->coloringInstance->color(str_repeat("=", 80)."\n",$color);
+            $method_CLI->method_debug_script($color);
+        }
+        $this->coloringInstance->color(str_repeat("=", 80)."\n",$color);
+    }
+
+    private function invokeDebuggingMethod():void
+    {
+        if(!is_null($this->classAtributHandlerIterator->getDebbugingMethod()))
+        {
+            $this->classAtributHandlerIterator->getDebbugingMethod()->invoke($this->defaultDebugScript(...));
+        } else {
+            $this->defaultDebugScript();
         }
     }
 }

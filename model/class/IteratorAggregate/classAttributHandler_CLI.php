@@ -9,6 +9,7 @@ use model\interface\methodCLIInterface;
 class classAttributHandler_CLI implements IteratorAggregate
 {
     private $items = [];
+    private ?methodCLIInterface $debuggingMethod;
 
     public function __construct(private \ReflectionClass $method) 
     {}
@@ -23,15 +24,36 @@ class classAttributHandler_CLI implements IteratorAggregate
         $this->items[] = $item;
     }
 
+    /**
+     * @return \Traversable<TKey, methodCLIInterface>|methodCLIInterface[]
+     */
     public function getIterator(): \Iterator
     {
         return new AttributIterator_CLI($this);
     }
 
+    /**
+     * @return \Traversable<TKey, methodCLIInterface>|methodCLIInterface[]
+     */
     public function getReverseIterator(): \Iterator
     {
         return new AttributIterator_CLI($this, true);
     }
- 
 
+    public function getDebbugingMethod():?methodCLIInterface
+    {
+        if(!isset($this->debuggingMethod))
+        {
+            $debuggingMethod = null;
+            foreach($this->getIterator() as $method_CLI)
+            {
+                if($method_CLI->getCommand() == 'debug')
+                {
+                    $debuggingMethod = $method_CLI;
+                }
+            }
+            $this->debuggingMethod = $debuggingMethod;
+        }
+        return $this->debuggingMethod;
+    }
 }

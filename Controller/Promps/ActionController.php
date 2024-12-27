@@ -40,10 +40,9 @@ class ActionController extends abstractPrompsController
 
     #[Command('debug'),
     Description("Special method return this when the command"
-    ."\nin system or no input has been prompts")]
-    public function debug()
-    {
-        $this->getColoring()
-        ->color("debugging text","green");
+    ."\nis not in system or no input has been prompts")]
+    public function debug(callable $script)
+    { 
+        $script("magenta");
     }
 }

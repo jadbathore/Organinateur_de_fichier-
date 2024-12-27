@@ -28,7 +28,8 @@ enum Text:string implements colorInterface
         $getType = self::type_text($input);
         $return_value = match ($getType) {
             self::bgColoring => "4",
-            self::Coloring => "3",
+            self::Coloring => "3", 
+            self::Error=>"0",
             default=> throw new Error("type no allowed.for input($getType)")
         };
         if($getType == self::bgColoring)

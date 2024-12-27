@@ -15,6 +15,7 @@ class method_CLI implements methodCLIInterface {
     private ?array $promps;
     private ?string $description;
     private string $command;
+    private Object $invokable;
     private Coloring $coloringInstance;
 
     public function __construct(private ReflectionMethod $method)
@@ -23,6 +24,7 @@ class method_CLI implements methodCLIInterface {
         $this->setCommand();
         $this->setOptions();
         $this->setDescription();
+        $this->setInvokable();
     }
 
     private function setOptions()
@@ -45,6 +47,12 @@ class method_CLI implements methodCLIInterface {
         $condition = (($a = current($this->method->getAttributes(Description::class))) != false);
         $attributes_Description = ($condition)?$a->getArguments()[0]:null;
         $this->description = $attributes_Description;
+    }
+
+    private function setInvokable()
+    {
+        $className = $this->getClass();
+        $this->invokable = new $className;
     }
 
     public function getDescription(): ?string
@@ -87,31 +95,36 @@ class method_CLI implements methodCLIInterface {
 
     public function invokeFromPromps(): void
     {
-        $className = $this->getClass();
-        $invokable = new $className;
         if(is_null($this->getPromps()))
         {
-            $this->method->invoke($invokable,$this->getPromps());
+            $this->method->invoke($this->invokable,$this->getPromps());
         } else {
-            $this->method->invoke($invokable,...array_values($this->getPromps()));
+            $this->method->invoke($this->invokable,...array_values($this->getPromps()));
         }
     }
-    public function method_debug_script():void 
+
+    public function invoke(mixed ...$argument): void
+    {
+        // var_dump($argument);
+        $this->method->invoke($this->invokable,...$argument);
+    }
+
+    public function method_debug_script(string $color):void 
     {
         foreach($this->method->getAttributes() as $attribut)
         {
             $basename_attribut = $this->getBaseName($attribut->getName());
-            $this->coloringInstance->color($basename_attribut.":","green","underline","bold");
+            $this->coloringInstance->color($basename_attribut.":",$color,"underline","bold");
             switch($attribut->getName())
             {
                 case Command::class:
-                    $this->coloringInstance->color($this->getCommand(),"green","italic");
+                    $this->coloringInstance->color($this->getCommand(),$color,"italic");
                 break;
                 case Option::class:
-                    $this->coloringInstance->color("<".implode(">\t<",array_keys($this->getOptions())).">","green","italic");
+                    $this->coloringInstance->color("<".implode(">\t<",array_keys($this->getOptions())).">",$color,"italic");
                 break;
                 case Description::class:
-                    $this->coloringInstance->color($this->getDescription(),"green","italic");
+                    $this->coloringInstance->color($this->getDescription(),$color,"italic");
                 break;
             }
             echo PHP_EOL;

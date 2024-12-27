@@ -10,6 +10,7 @@ interface methodCLIInterface {
     public function addPromps(mixed $index,mixed $item):void;
     public function getPromps():null|array;
     public function invokeFromPromps():void;
+    public function invoke():void;
     public function getDescription():null|string;
-    
+    public function method_debug_script(string $color):void;
 }
