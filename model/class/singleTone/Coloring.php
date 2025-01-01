@@ -31,7 +31,6 @@ class Coloring implements SingleToneInterface
         return self::$instance;
     }
 
-    
     public function color(string $text,string $color,mixed ...$modif):void
     {
         $format = Text::formatColoring($color,$modif);

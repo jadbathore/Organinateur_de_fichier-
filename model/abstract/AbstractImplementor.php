@@ -8,6 +8,7 @@ use Twig\Loader\FilesystemLoader;
 
 abstract class AbstractImplementor
 {
+
     public function __construct(
         public ?object $twigObject = null,
         public ?object $binder = null,

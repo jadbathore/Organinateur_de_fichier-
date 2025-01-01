@@ -1,19 +1,24 @@
 <?php
 
 namespace model\class\Object;
+
+use EmptyIterator;
 use model\enum\File;
 use model\interface\FileInterface;
 use \finfo;
+use model\class\singleTone\FileOpener;
 
 class File_CLI implements FileInterface {
 
     private File $typeFile;
+    private FileOpener $FileOpenerInstance;
     private string|bool $infoFile;
 
     public function __construct(private string $fileName)
     {
         $this->setInfoFile();
         $this->setFileType();
+        $this->FileOpenerInstance = FileOpener::instance();
     }
 
     private function setInfoFile():void
@@ -40,10 +45,37 @@ class File_CLI implements FileInterface {
         return $this->typeFile;
     }
 
-
     public function fileInfo():string|bool
     {
         return $this->infoFile;
+    }
+
+    public function subPath_Correction():void
+    {
+        if($this->typeFile == File::Files)
+        {
+            $internalTypeArray = [];
+            foreach($this->FileOpenerInstance->getFiles($this->fileName) as $subfile)
+            {
+                $subInternalClass = new File_CLI($this->fileName.'/'.$subfile);
+                if(File::sutableFileCase($subInternalClass->getFileType()))
+                {
+                    $stringCase = File::select($subInternalClass->getFileType());
+                    $internalTypeArray[$stringCase] = 
+                    (!isset($internalTypeArray[$stringCase]))?0:
+                    $internalTypeArray[$stringCase]+1;
+                }
+            }
+            $max =(empty($internalTypeArray))? null :array_search(max($internalTypeArray),$internalTypeArray);
+            $CorrectionType = File::from($max ?? 'empty file');
+            switch($CorrectionType)
+            {
+                case File::Files: break;
+                default:
+                    $this->typeFile = $CorrectionType;
+                break;
+            }
+        }
     }
 
     public function findAccordingPath():string
@@ -53,6 +85,4 @@ class File_CLI implements FileInterface {
         $replacement[] = $explodeFile[count($explodeFile) - 1];
         return implode("/",$replacement);
     }
-
-    // public 
 } 

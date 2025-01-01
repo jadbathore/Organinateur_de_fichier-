@@ -42,7 +42,9 @@ class ActionController extends abstractPrompsController
     Description("Special method return this when the command"
     ."\nis not in system or no input has been prompts")]
     public function debug(callable $script)
-    { 
-        $script("magenta");
+    {
+        $this->getColoring()
+        ->color("\nCLI_File_Organisator:\n","green","bold","underline");
+        $script();
     }
 }

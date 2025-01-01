@@ -17,6 +17,7 @@ enum File: string implements enumFileInterface
     case Files = 'files' ;
     case Compressible = 'Compressible';
     case Use_Docs = 'use Docs';
+    case EmptyFile = 'empty file';
     case MacsSpecialFile = 'MacsSpecialFile';
     case Error = 'Error';
 

@@ -4,7 +4,6 @@ namespace model\class\ControllerHandler;
 
 use \Error;
 use model\class\IteratorAggregate\classAttributHandler_CLI;
-use model\abstract\abstractAttributHandler;
 use model\Attributes\Promps\Command;
 use model\class\IteratorAggregate\raisedmethodHandler_CLI;
 use model\class\Object\argv_CLI;
@@ -84,7 +83,6 @@ class actionControllerHandler
                                 $this->argvObject->next();
                             break;
                             default:
-                                
                                 throw new Error('Command not expected at this level');
                         }
                         $this->argvObject->next();
@@ -112,7 +110,6 @@ class actionControllerHandler
                 $raisedMethod->invokeFromPromps();
             } 
         } else {
-            // throw new \Error('command not found:"'.$this->argvObject->getPrompsArgv().'"');
             $this->invokeDebuggingMethod();
         }
     }
