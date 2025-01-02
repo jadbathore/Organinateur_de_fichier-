@@ -46,7 +46,7 @@ class Organisator extends FileOpener implements SingleToneInterface {
     {
         foreach(File::cases() as $case)
         {
-            if(File::sutableFileCase($case))
+            if(File::sutableFileCase($case) && $case != File::Package)
             {
                 $this->fileOrganizeName[] = $case->value;
             }
@@ -88,7 +88,7 @@ class Organisator extends FileOpener implements SingleToneInterface {
                             {
                                 $file_Class->subPath_Correction();
                             }
-                            rename($file_Class->getFileName(),$file_Class->findAccordingPath());
+                            $file_Class->handlePath();
                         }
                     }
             }

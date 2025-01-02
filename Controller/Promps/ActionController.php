@@ -23,8 +23,8 @@ class ActionController extends abstractPrompsController
             break;
             case "boolean":
                 throw new Error(
-                $this->getColoring()->color("you must prompt one of those dir witch are:\n","red","underline").
-                $this->getColoring()->color("-downloads\n-desktop\n-documents\n","red"));
+                $this->color("you must prompt one of those dir witch are:\n","red","underline").
+                $this->color("-downloads\n-desktop\n-documents\n","red"));
             break;
         }
         $this->getOrganisator()
@@ -34,8 +34,7 @@ class ActionController extends abstractPrompsController
     #[Command('test'),Option(['-test'=>'<dtest>','-b'=>true]),Description('Test function')]
     public function test(null|string|bool $dtest,null|bool $b)
     {
-        $this->getColoring()
-        ->color("bonjour","green","underline","italic");
+        $this->color("bonjour","green","underline","italic");
     }
 
     #[Command('debug'),
@@ -43,8 +42,7 @@ class ActionController extends abstractPrompsController
     ."\nis not in system or no input has been prompts")]
     public function debug(callable $script)
     {
-        $this->getColoring()
-        ->color("\nCLI_File_Organisator:\n","green","bold","underline");
+        $this->color("\nCLI_File_Organisator:\n","green","bold","underline");
         $script();
     }
 }

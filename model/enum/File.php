@@ -17,7 +17,9 @@ enum File: string implements enumFileInterface
     case Files = 'files' ;
     case Compressible = 'Compressible';
     case Use_Docs = 'use Docs';
+    case Font = 'font';
     case EmptyFile = 'empty file';
+    case Package = 'package';
     case MacsSpecialFile = 'MacsSpecialFile';
     case Error = 'Error';
 
@@ -25,6 +27,7 @@ enum File: string implements enumFileInterface
         self::Use_Docs,
         self::MacsSpecialFile,
         self::Error,
+        self::EmptyFile,
     ];
 
     public static function sorting_a_type(string $fileName,string|bool $mineType): self
@@ -45,6 +48,8 @@ enum File: string implements enumFileInterface
                 return match (true) {
                     ($info[0] == 'image') => static::Image,
                     ($info[1] == 'zip') => static::Compressible,
+                    ($info[0] == 'font') => static::Font,
+                    ($info[1] == 'x-xar') => static::Package,
                     in_array($info[1], self::typeDocs['docs']) => static::Docs,
                     in_array($info[1], self::typeDocs['object']) => static::Object,
                     in_array($info[1], self::typeDocs['calc']) => static::Calc,

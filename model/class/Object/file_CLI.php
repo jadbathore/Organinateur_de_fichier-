@@ -7,9 +7,12 @@ use model\enum\File;
 use model\interface\FileInterface;
 use \finfo;
 use model\class\singleTone\FileOpener;
+use model\trait\Coloring;
 
 class File_CLI implements FileInterface {
 
+    use Coloring;
+    
     private File $typeFile;
     private FileOpener $FileOpenerInstance;
     private string|bool $infoFile;
@@ -78,11 +81,31 @@ class File_CLI implements FileInterface {
         }
     }
 
+    public function handlePath()
+    {
+        if($this->typeFile == File::EmptyFile)
+        {
+            $this->FileOpenerInstance->EmptyFile($this->fileName);
+            rmdir($this->fileName);
+            $text = '"'.$this->fileName.'"'." has been delete\n";
+            $this->color($text,"yellow","bold");
+        } else {
+            // $this->color($this->fileInfo(),"yellow","bold");
+            rename($this->fileName,$this->findAccordingPath());
+        }
+    }
+
     public function findAccordingPath():string
     {
         $explodeFile = explode('/',$this->fileName);
-        $replacement = array_replace_recursive($explodeFile,array(count($explodeFile) - 1 =>File::select($this->typeFile)));
-        $replacement[] = $explodeFile[count($explodeFile) - 1];
+        $replacement = [];
+        if($this->typeFile !== File::Package)
+        {
+            $replacement = array_replace_recursive($explodeFile,array(count($explodeFile) - 1=>File::select($this->typeFile)));
+            $replacement[] = $explodeFile[count($explodeFile) - 1];
+        } else {
+            $replacement = array_replace_recursive($explodeFile,array(count($explodeFile) - 2 =>'.Trash'));
+        }
         return implode("/",$replacement);
     }
 } 

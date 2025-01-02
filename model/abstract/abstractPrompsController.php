@@ -3,17 +3,17 @@
 namespace model\abstract;
 
 use model\class\singleTone\Organisator;
-use model\class\singleTone\Coloring;
+use model\trait\Coloring;
 
 abstract class abstractPrompsController
 {
-    private Coloring $coloringInstance;
+    use Coloring;
+
     private Organisator $organisatorInstance;
 
     public function __construct() 
     {
         $this->organisatorInstance = Organisator::instance();
-        $this->coloringInstance = Coloring::instance();
     }
 
     public function getOrganisator():Organisator
@@ -26,8 +26,4 @@ abstract class abstractPrompsController
         Organisator::_init_($path);
     }
 
-    public function getColoring():Coloring
-    {
-        return $this->coloringInstance;
-    }
 } 

@@ -9,23 +9,23 @@ use model\class\IteratorAggregate\raisedmethodHandler_CLI;
 use model\class\Object\argv_CLI;
 use ReflectionClass;
 use model\class\Object\method_CLI;
-use model\class\singleTone\Coloring;
+// use model\class\singleTone\Coloring;
 use model\enum\Argv;
+use model\trait\Coloring;
 
 class actionControllerHandler
 {
+    use Coloring;
 
     private classAttributHandler_CLI $classAtributHandlerIterator;
     private raisedmethodHandler_CLI $raisedMethodIterator;
     private argv_CLI $argvObject;
-    private Coloring $coloringInstance;
 
     public function __construct(
         private string $controller,
         array $argv,
     ) 
     {
-        $this->coloringInstance = Coloring::instance();
         $this->argvSetter($argv);
         $this->setAttributIterator();
         $this->setRaisedmethodIterator();
@@ -118,10 +118,10 @@ class actionControllerHandler
     {
         foreach($this->classAtributHandlerIterator->getIterator() as $method_CLI)
         {
-            $this->coloringInstance->color(str_repeat("=", 80)."\n",$color);
+            $this->color(str_repeat("=", 80)."\n",$color);
             $method_CLI->method_debug_script($color);
         }
-        $this->coloringInstance->color(str_repeat("=", 80)."\n",$color);
+        $this->color(str_repeat("=", 80)."\n",$color);
     }
 
     private function invokeDebuggingMethod():void

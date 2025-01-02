@@ -5,22 +5,22 @@ namespace model\class\Object;
 use model\Attributes\Promps\Command;
 use model\Attributes\Promps\Description;
 use model\Attributes\Promps\Option;
-use model\class\singleTone\Coloring;
+use model\trait\Coloring;
 use model\interface\methodCLIInterface;
 use \ReflectionMethod;
 
 class method_CLI implements methodCLIInterface {
+
+    use Coloring;
 
     private ?array $options;
     private ?array $promps;
     private ?string $description;
     private string $command;
     private Object $invokable;
-    private Coloring $coloringInstance;
 
     public function __construct(private ReflectionMethod $method)
     {
-        $this->coloringInstance = Coloring::instance();
         $this->setCommand();
         $this->setOptions();
         $this->setDescription();
@@ -114,17 +114,17 @@ class method_CLI implements methodCLIInterface {
         foreach($this->method->getAttributes() as $attribut)
         {
             $basename_attribut = $this->getBaseName($attribut->getName());
-            $this->coloringInstance->color($basename_attribut.":",$color,"underline","bold");
+            $this->color($basename_attribut.":",$color,"underline","bold");
             switch($attribut->getName())
             {
                 case Command::class:
-                    $this->coloringInstance->color($this->getCommand(),$color,"italic");
+                    $this->color($this->getCommand(),$color,"italic");
                 break;
                 case Option::class:
-                    $this->coloringInstance->color("<".implode(">\t<",array_keys($this->getOptions())).">",$color,"italic");
+                    $this->color("<".implode(">\t<",array_keys($this->getOptions())).">",$color,"italic");
                 break;
                 case Description::class:
-                    $this->coloringInstance->color($this->getDescription(),$color,"italic");
+                    $this->color($this->getDescription(),$color,"italic");
                 break;
             }
             echo PHP_EOL;
