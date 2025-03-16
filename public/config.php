@@ -1,8 +1,8 @@
 <?php
 
-namespace main;
+namespace Main;
 
-use model\class\Binder;
+use App\Model\Class\Binder;
 
 //---------------"root-files"------------------------------------------
 define('USERS','/Users/');

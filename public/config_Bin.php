@@ -1,8 +1,6 @@
 <?php
 
-
-
-namespace public;
+namespace Main;
 
 $expoldeDir = explode('/',__DIR__);
 $rootUser = implode('/',array_slice($expoldeDir,0,3));

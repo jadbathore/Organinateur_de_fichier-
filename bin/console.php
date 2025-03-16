@@ -1,18 +1,22 @@
 #!/usr/bin/env php
 <?php 
+require_once 'vendor/autoload.php';
+require_once './public/config_Bin.php';
 
-require_once './public/ModelAutoloader.php';
-require_once  './public/config_Bin.php';
+// require_once './public/ModelAutoloader.php';
 
-use Controller\Promps\ActionController;
-use model\class\ControllerHandler\actionControllerHandler;
-use model\class\singleTone\Coloring;
+
+use App\Controller\Promps\ActionController;
+use App\Model\Class\ControllerHandler\BinControllerHandler;
+use App\Model\Class\SingleTone\Coloring;
+use App\Controller as Controllers;
+
 
 try{
-    $action = new actionControllerHandler(ActionController::class,$argv);
+    $action = new BinControllerHandler(ActionController::class,$argv);
     $action->start();
 }catch(Error $e){
-    $e->getMessage();
+    echo $e->getMessage();
     // Coloring::instance()->color($e->getMessage(),'red');
 }
 

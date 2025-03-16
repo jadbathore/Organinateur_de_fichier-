@@ -9,19 +9,18 @@ php -S localhost:8080 -t public
 */
 
 require_once '../vendor/autoload.php';
-require_once 'ModelAutoloader.php';
 require('config.php');
 
 
-use Controller\HomeController;
-use Controller\ImageController;
-use Controller\UsersController;
+use App\Controller\HomeController;
+use App\Controller\ImageController;
+use App\Controller\UsersController;
 use Exception;
-use model\class\Binder;
-use model\class\ControllerHandler\Router;
-use model\class\MajorErrorHandler;
+use App\Model\Class\Binder;
+use App\Model\Class\ControllerHandler\Router;
+use App\Model\Class\MajorErrorHandler;
 
-use model\class\Twig\TwigLoader;
+use App\Model\Class\Twig\TwigLoader;
 
 $uri = $_SERVER['REQUEST_URI'];
 $explode = explode('/',$uri);
