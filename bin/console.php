@@ -6,18 +6,18 @@ require_once './public/config_Bin.php';
 // require_once './public/ModelAutoloader.php';
 
 
-use App\Controller\Promps\ActionController;
+use App\Controller\Promps\BinController;
 use App\Model\Class\ControllerHandler\BinControllerHandler;
 use App\Model\Class\SingleTone\Coloring;
 use App\Controller as Controllers;
-
+use App\Model\Class\Singletone\ErrorHandler;
 
 try{
-    $action = new BinControllerHandler(ActionController::class,$argv);
+    $action = new BinControllerHandler(BinController::class,$argv);
     $action->start();
 }catch(Error $e){
-    echo $e->getMessage();
-    // Coloring::instance()->color($e->getMessage(),'red');
+    $errorHandler = ErrorHandler::instance($e);
+    $errorHandler->debugInfo();
 }
 
 // var_dump($argv);

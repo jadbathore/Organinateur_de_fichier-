@@ -6,30 +6,32 @@ use Error;
 use App\Model\Interface\FileInterface;
 use App\Model\Interface\SingleToneInterface;
 
-class FileOpener implements SingleToneInterface {
+class FileOpener {
 
     private static ?FileOpener $instance;
 
-    protected function __construct()
+    private function __construct()
     {}
     
-    protected function __clone()
+    private function __clone()
     {}
 
-    public function __wakeup()
+    private function __wakeup()
     {
         throw new \Exception("Cannot unserialize a singleton.");
     }
 
-    public static function instance():FileOpener
+    public function init(mixed ...$args): void{
+        self::$instance =  new static(... $args);
+    }
+
+
+    public static function &instance(mixed ...$args):self
     {   
-        {
-            if(!isset(self::$instance))
-            {
-                self::$instance =  new static();
-            }
-            return self::$instance;
+        if (!isset(self::$instance)) {
+            self::$instance = new static();
         }
+        return self::$instance;
     }
 
     public function getFiles(string $directory)

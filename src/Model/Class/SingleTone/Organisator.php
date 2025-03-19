@@ -26,7 +26,7 @@ class Organisator extends FileOpener implements SingleToneInterface {
         throw new \Exception("Cannot unserialize a singleton.");
     }
 
-    public static function instance():Organisator
+    public static function &instance(... $args):Organisator
     {   
         {
             if(!isset(self::$instance))

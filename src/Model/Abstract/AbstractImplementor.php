@@ -13,7 +13,7 @@ abstract class AbstractImplementor
         public ?object $twigObject = null,
         public ?object $binder = null,
         ) {
-        $loader = new FilesystemLoader('../viewer/');
+        $loader = new FilesystemLoader('../src/viewer/');
         $this->twigObject = new Environment($loader);
         $this->binder = new Binder();
         $binder = $this->binder;

@@ -48,7 +48,6 @@ class BinController extends AbstractPrompsController
         null|string|bool $dtest,
         null|string|bool $b
         ){
-            dd($dtest,$b);
         $this->color("bonjour","green","underline","italic");
     }
 
