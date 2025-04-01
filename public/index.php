@@ -1,12 +1,7 @@
 <?php
 namespace main;
 
-/*
-NE FONCTIONNE QUE SUR MAC !!!
-démarré l'eviroment de test avec la commande:
-php -S localhost:8080 -t public
-(si vous avez installer php sur votre ordinateur)
-*/
+// composer start
 
 require_once '../vendor/autoload.php';
 require('config.php');

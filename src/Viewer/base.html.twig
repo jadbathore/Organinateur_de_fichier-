@@ -7,27 +7,24 @@
     <title>{% block title %}Acceuil{% endblock %}</title>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-dark fs-5">
-        <a class="navbar-brand text-white p-4" href="/">contenu des fichiers de mon ordinateur</a>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link active text-white p-4" href="/imagecompressor">Compresser mes images</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark fs-5">
+          <a class="navbar-brand text-white p-4" href="/">contenu des fichiers de mon ordinateur</a>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-item nav-link active text-white p-4" href="/imagecompressor">Compresser mes images</a>
+            </div>
+            <div class="navbar-nav">
+              <a class="nav-item nav-link active text-white p-4" href="/user">contenu Fichier Users</a>
+            </div>
           </div>
-          <div class="navbar-nav">
-            <a class="nav-item nav-link active text-white p-4" href="/user">contenu Fichier Users</a>
-          </div>
-        </div>
-</nav>
-
-<div class="mw-100 hw-100">
-    {% block body %}
-    {% endblock %}
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
-</html>
-</div>
+  </nav>
+  <div class="mw-100 hw-100">
+  {# chaque page bock seront ici  #}
+      {% block body %}
+      {% endblock %}
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </div>
 </body>
 </html>
