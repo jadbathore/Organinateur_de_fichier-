@@ -6,7 +6,6 @@
 .LSOverride
 
 .env
-/.htaccess
 /vendor 
 
 # ignore ALL files in ANY directory named public/versonning||dist ""

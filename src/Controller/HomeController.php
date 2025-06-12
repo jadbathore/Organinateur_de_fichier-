@@ -48,11 +48,11 @@ class HomeController extends AbstractImplementor
         $documents = $this->binder->getFiles(ROOT_TO_DOCUMENT);
         $allfiles = [];
         $allfiles['downloads'][] = $this->display_in_file($downloads, ROOT_TO_DOWNLOAD);
-        $allfiles['downloads'][] = ROOT_TO_DOWNLOAD;
+        $allfiles['downloads'][] = $this->encryptFileName("../../".basename(ROOT_TO_DESKTOP));
         $allfiles['desktop'][] = $this->display_in_file($desktop, ROOT_TO_DESKTOP);
-        $allfiles['desktop'][] = ROOT_TO_DESKTOP;
+        $allfiles['desktop'][] = "../../".basename(ROOT_TO_DESKTOP);
         $allfiles['documents'][] = $this->display_in_file($documents, ROOT_TO_DOCUMENT);
-        $allfiles['documents'][] = ROOT_TO_DOCUMENT;
+        $allfiles['documents'][] = "../../".basename(ROOT_TO_DOCUMENT);
         static $file_downloads = serialize($downloads);
         static $file_desktop = serialize($desktop);
         static $file_documents = serialize($documents);
@@ -125,7 +125,8 @@ class HomeController extends AbstractImplementor
                 } else {
                     unset($test['sub_file']);
                 }
-                $test['root'] = $directory . $file;
+
+                $test['root'] = $this->encryptFileName(basename($directory)."/" . $file);
                 $other[] = $test;
             }
         }

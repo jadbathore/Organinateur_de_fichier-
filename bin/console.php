@@ -16,8 +16,6 @@ try{
     $action = new BinControllerHandler(BinController::class,$argv);
     $action->start();
 }catch(Error $e){
-    $errorHandler = ErrorHandler::instance($e);
+    $errorHandler = &ErrorHandler::instance($e);
     $errorHandler->debugInfo();
 }
-
-// var_dump($argv);

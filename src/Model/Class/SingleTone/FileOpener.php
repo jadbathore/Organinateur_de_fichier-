@@ -46,7 +46,7 @@ class FileOpener {
                 closedir($handle);
                 return $docs;
             } else {
-                throw new Error("directory Can't be open");
+                throw new Error("directory Can't be open :".$directory.'"');
             }
         }
     }

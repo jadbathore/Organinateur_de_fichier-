@@ -72,7 +72,7 @@ class ImageController extends AbstractImplementor
                     $size = filesize($path);
                     $toDisplay[$i]['name'] = explode('.',$directory)[0];
                     $toDisplay[$i]['size'] = $size;
-                    $toDisplay[$i]['path'] = $path;
+                    $toDisplay[$i]['path'] = "../image/".basename($path);
                     $image = Image::ImageType($path,$type);
                     if($type != Type::MacsSpecialFile)
                     {

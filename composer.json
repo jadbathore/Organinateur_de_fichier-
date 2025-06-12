@@ -6,13 +6,15 @@
         }
     },
     "require": {
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "twig/cssinliner-extra": "^3.12"
     },
     "require-dev": {
         "symfony/var-dumper": "^7.2"
     },
     "scripts":{
         "start":["php -S localhost:8080 -t public"],
-        "bin":["./bin/console.php"]
+        "bin":["./bin/console.php"],
+        "test":["php src/test.php"]
     }
 }

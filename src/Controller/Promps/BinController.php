@@ -10,6 +10,7 @@ use App\Model\Attributes\Promps\Option;
 class BinController extends AbstractPrompsController
 {
     #[
+        
         Command('organise'),
         Option(
             [
@@ -36,19 +37,22 @@ class BinController extends AbstractPrompsController
     }
 
     #[
+        /* Commande utilisée pour activer la méthode.  */
         Command('test'),
+        /* Option utilisable avec la commande  */
         Option(
             [
                 '-test'=>'<dtest>',
-                '-b'=>'<dtest>'
+                '-b'=>true
             ])
+        /* La description de ce que fait la commande. */
         ,Description('Test function')
     ]
     public function test(
         null|string|bool $dtest,
-        null|string|bool $b
+        null|bool $b
         ){
-        $this->color("bonjour","green","underline","italic");
+        var_dump($dtest,$b);
     }
 
     #[

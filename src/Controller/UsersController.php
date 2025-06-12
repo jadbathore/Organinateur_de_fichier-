@@ -69,7 +69,7 @@ class UsersController extends AbstractImplementor
                 } else {
                     unset($test['sub_file']);
                 }
-                $test['root'] = $directory . $file;
+                $test['root'] = "../../" . $file;
                 $other[] = $test;
             }
         }

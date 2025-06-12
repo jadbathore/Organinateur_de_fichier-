@@ -72,7 +72,6 @@ class BinControllerHandler
                 $this->argvObject->next();
                 while($this->argvObject->isValid())
                 {
-                    dump($this->argvObject->currentArgvType($method_CLI));
                     switch($this->argvObject->currentArgvType($method_CLI))
                     {
                         case Argv::Option:
